@@ -16,7 +16,7 @@
 <h1>System requirements</h1>
 
 - <strong>OS: Windows 7-11</strong>
-- <strong>Spotify: Recommended official version [0.9.8.195](https://cutt.ly/8EH6NuH)</strong>
+- <strong>Spotify: Recommended official version [1.0.1.986](https://cutt.ly/8EH6NuH)</strong>
 - <strong>For Windows Desktop only (Microsoft store version is not suitable).</strong>
 - <strong>PowerShell: 3 or higher</strong>
 
