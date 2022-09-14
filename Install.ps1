@@ -162,7 +162,7 @@ function Format-LanguageCode {
 function CallLang($clg) {
 
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-    $urlLang = "https://raw.githubusercontent.com/amd64fox/SpotX/main/scripts/installer-lang/$clg.ps1"
+    $urlLang = "https://raw.githubusercontent.com/AYTROX-OFFICIEL/SpotX/main/scripts/installer-lang/$clg.ps1"
     $ProgressPreference = 'SilentlyContinue'
     
     try {
@@ -299,7 +299,7 @@ function Check_verison_clients($param2) {
     # checking the recommended version for spotx
     if ($param2 -eq "online") {
         $ProgressPreference = 'SilentlyContinue' # Hiding Progress Bars
-        $readme = Invoke-WebRequest -UseBasicParsing -Uri https://raw.githubusercontent.com/amd64fox/SpotX/main/README.md
+        $readme = Invoke-WebRequest -UseBasicParsing -Uri https://raw.githubusercontent.com/AYTROX-OFFICIEL/SpotX/main/README.md
         $v = $readme.RawContent | Select-String "Recommended official version \[\d+\.\d+\.\d+\.\d+\]" -AllMatches
         $ver = $v.Matches.Value
         $ver = $ver -replace 'Recommended official version \[(\d+\.\d+\.\d+\.\d+)\]', '$1'
@@ -350,15 +350,15 @@ function downloadScripts($param1) {
         $links = $Matches.Values
     }
     if ($ru -and $param1 -eq "cache-spotify") {
-        $links2 = "https://raw.githubusercontent.com/amd64fox/SpotX/main/scripts/cache/cache_spotify_ru.ps1"
+        $links2 = "https://raw.githubusercontent.com/AYTROX-OFFICIEL/SpotX/main/scripts/cache/cache_spotify_ru.ps1"
     }
     if (!($ru) -and $param1 -eq "cache-spotify" ) { 
-        $links2 = "https://raw.githubusercontent.com/amd64fox/SpotX/main/scripts/cache/cache_spotify.ps1"
+        $links2 = "https://raw.githubusercontent.com/AYTROX-OFFICIEL/SpotX/main/scripts/cache/cache_spotify.ps1"
     }
     
     $web_Url_prev = "https://github.com/mrpond/BlockTheSpot/releases/latest/download/chrome_elf.zip", $links, `
-        $links2, "https://raw.githubusercontent.com/amd64fox/SpotX/main/scripts/cache/hide_window.vbs", `
-        "https://raw.githubusercontent.com/amd64fox/SpotX/main/scripts/cache/run_ps.bat", "https://docs.google.com/spreadsheets/d/e/2PACX-1vSFN2hWu4UO-ZWyVe8wlP9c0JsrduA49xBnRmSLOt8SWaOfIpCwjDLKXMTWJQ5aKj3WakQv6-Hnv9rz/pub?gid=0&single=true&output=tsv"
+        $links2, "https://raw.githubusercontent.com/AYTROX-OFFICIEL/SpotX/main/scripts/cache/hide_window.vbs", `
+        "https://raw.githubusercontent.com/AYTROX-OFFICIEL/SpotX/main/scripts/cache/run_ps.bat", "https://docs.google.com/spreadsheets/d/e/2PACX-1vSFN2hWu4UO-ZWyVe8wlP9c0JsrduA49xBnRmSLOt8SWaOfIpCwjDLKXMTWJQ5aKj3WakQv6-Hnv9rz/pub?gid=0&single=true&output=tsv"
 
     $local_Url_prev = "$PWD\chrome_elf.zip", "$PWD\SpotifySetup.exe", "$cache_folder\cache_spotify.ps1", "$cache_folder\hide_window.vbs", "$cache_folder\run_ps.bat", "$PWD\links.tsv"
     $web_name_file_prev = "chrome_elf.zip", "SpotifySetup.exe", "cache_spotify.ps1", "hide_window.vbs", "run_ps.bat", "links.tsv"
@@ -857,12 +857,12 @@ function Helper($paramname, $addstring) {
         }
         "Discriptions" {  
             # Add discriptions (xpui-desktop-modals.js)
-            $about = "`$1`"<h3>More about SpotX</h3>`"}),`$1`'<a `
-        href=`"https://github.com/amd64fox/SpotX`">Github</a>`'}),`$1`'<a `
+            $about = "`$1`"<h3>Plus sur SpotX</h3>`"}),`$1`'<a `
+        href=`"https://github.com/AYTROX-OFFICIEL/SpotX`">Github</a>`'}),`$1`'<a `
         href=`"https://github.com/amd64fox/SpotX/discussions/111`">FAQ</a>'}),`$1`'<a `
         href=`"https://t.me/spotify_windows_mod`">Telegram channel</a>`'}),`$1`'<a `
         href=`"https://github.com/amd64fox/SpotX/issues/new?assignees=&labels=%E2%9D%8C+bug&template=bug_report.yml`">Create `
-        an issue report</a>`'}),`$1`"<br>`"}),`$1`"<h4>DISCLAIMER</h4>`"}),`$1`"SpotX is a modified version of the official Spotify client, provided as an evaluation version, you use it at your own risk.`"})"
+        an issue report</a>`'}),`$1`"<br>`"}),`$1`"<h4>DISCLAIMER</h4>`"}),`$1`"SpotX is a modified version by AYTROX of the official Spotify client, provided as an evaluation version, you use it at your own risk.`"})"
 
             $discript = @{
                 Log = '(..createElement\(....,{source:).....get\("about.copyright",.\),paragraphClassName:.}\)', $about
