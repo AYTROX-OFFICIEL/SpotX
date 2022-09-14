@@ -1,18 +1,15 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/31l6ynm0a1fhr2vs/branch/master?svg=true)](https://ci.appveyor.com/project/mrpond/blockthespot/branch/master) [![Discord](https://discord.com/api/guilds/807273906872123412/widget.png)](https://discord.gg/p43cusgUPm)
+[![Discord](https://discord.com/api/guilds/768367634395430992/widget.png?style=banner2)](https://discord.gg/UyjwFrTSRs)
+
 
 <center>
-    <h3 align="center"><a href="https://en.wikipedia.org/wiki/2020_Thai_protests">Support the 2020 Thailand & 2021 Myanmar protests</a></h3>
-    <h3 align="center">Help me stop the dictatorship in Thailand and Myanmar!</h3>
-    <h3 align="center">Southeast Asia strong together!</h3>
-</center>
-
-<center>
-    <h1 align="center">BlockTheSpot</h1>
-    <h4 align="center">A multi-purpose adblocker and skip-bypass for the <strong>Windows</strong> Spotify desktop application.</h4>
+    <h1 align="center">SpotXBasic<br>
+    <img src="https://img.shields.io/github/stars/AYTROX-OFFICIEL/SpotXBasic?color=red&logo=AYTROX&logoColor=blue&style=plastic">
+    </h1>
+    <h4 align="center">Un bloqueur de publicités polyvalent et un contournement pour l'application de <strong>Windows</strong> Spotify.</h4>
     <h5 align="center">Please support Spotify by purchasing premium</h5>
     <p align="center">
-        <strong>Last updated:</strong> 05 September 2022<br>
-        <strong>Last tested version:</strong> 1.1.93.896.g3ae3b4f3
+        <strong>Dernière mise à jour:</strong> 05 Septembre 2022<br>
+        <strong>dernière version supporter:</strong> 1.1.93.896.g3ae3b4f3
     </p> 
 </center>
 
@@ -21,7 +18,7 @@
 0. Update Windows, update Spotify and update BlockTheSpot
 1. Go to "Windows Security" -> "Virus & Threat Protection"
 2. Click "Allowed threats" -> "Remove all allowed threats"
-3. Autoinstaller requirements can be found [here](https://github.com/amd64fox/SpotX#system-requirements)
+3. Autoinstaller requirements can be found [here](https://github.com//SpotX#system-requirements)
 
 ### Features:
 
