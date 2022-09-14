@@ -18,7 +18,7 @@
 0. Update Windows, update Spotify and update BlockTheSpot
 1. Go to "Windows Security" -> "Virus & Threat Protection"
 2. Click "Allowed threats" -> "Remove all allowed threats"
-3. Autoinstaller requirements can be found [here](https://github.com//SpotX#system-requirements)
+3. Autoinstaller requirements can be found [here](https://github.com/amd64fox/SpotX)
 
 ### Features:
 
