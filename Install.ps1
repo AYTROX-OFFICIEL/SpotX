@@ -861,7 +861,7 @@ function Helper($paramname, $addstring) {
         href=`"https://github.com/AYTROX-OFFICIEL/SpotX`">Github</a>`'}),`$1`'<a `
         href=`"https://discord.gg/UyjwFrTSRs`">Discord</a>`'}),`$1`'<a `
         href=`"https://github.com/AYTROX-OFFICIEL/SpotX/issues/new?assignees=&labels=%E2%9D%8C+bug&template=bug_report.yml`">Create `
-        an issue report</a>`'}),`$1`"<br>`"}),`$1`"<h4>DISCLAIMER</h4>`"}),`$1`"SpotX is a modified version by Amd64fox and AYTROX of the official Spotify client, provided as an evaluation version, you use it at your own risk.`"})"
+        an issue report</a>`'}),`$1`"<br>`"}),`$1`"<h4>DISCLAIMER</h4>`"}),`$1`"SpotX is a modified version by Amd64fox and AYTROX of the official Spotify client, provided as an evaluation version, you use it at your own risk. Version stable: 1.1.94.864`"})"
 
             $discript = @{
                 Log = '(..createElement\(....,{source:).....get\("about.copyright",.\),paragraphClassName:.}\)', $about
