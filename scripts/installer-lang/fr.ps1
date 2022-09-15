@@ -24,7 +24,7 @@
     DelOrOver       = "Voulez-vous désinstaller la version actuelle {0} ou installer par dessus? Y [Désinstaller] / N [Installer par dessus]"
     DelOld          = "Désinstallation de l'ancien Spotify..."
     NewV            = "Version non supportée de Spotify trouvée"
-    NewV2           = "Votre version {0} de Spotify n'a pas encore été testée, actuellement c'est une version {1} stable"
+    NewV2           = "Votre version {0} de Spotify n'a pas encore été testée, actuellement la dernière version {1} est stable"
     NewV3           = "Voulez-vous continuer avec la version {0} (érreures possibles) ? [Y/N]"
     Recom           = "Voulez-vous installer la version {0} recommandée ? [Y/N]"
     DelNew          = "Désinstallation d'un Spotify non testé..."
