@@ -4,7 +4,7 @@
     TranslationBy   = "Auteur de la traduction:"
     TranslationBy2  = "@xerta555"
     Incorrect       = "Oops, une valeure incorrecte,"
-    Incorrect2      = "entrer de nouveau par "
+    Incorrect2      = "entrer de nouveau dans "
     Download        = "Erreur de téléchargement"
     Download2       = "Renvoie d'une requête dans 5 secondes..."
     Download3       = "Erreur à nouveau"
