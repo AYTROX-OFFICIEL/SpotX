@@ -862,7 +862,7 @@ function Helper($paramname, $addstring) {
         href=`"https://github.com/AYTROX-OFFICIEL/SpotX`">Github</a>`'}),`$1`'<a `
         href=`"https://discord.gg/UyjwFrTSRs`">Discord</a>`'}),`$1`'<a `
         href=`"https://github.com/AYTROX-OFFICIEL/SpotX/issues/new?assignees=&labels=%E2%9D%8C+bug&template=bug_report.yml`">Create `
-        an issue report</a>`'}),`$1`"<br>`"}),`$1`"<h4>DISCLAIMER</h4>`"}),`$1`"SpotX is a modified version by Amd64fox and AYTROX of the official Spotify client, provided as an evaluation version, you use it at your own risk. Version stable: 1.1.94.864`"})
+        an issue report</a>`'}),`$1`"<br>`"}),`$1`"<h4>DISCLAIMER</h4>`"}),`$1`"SpotX is a modified version by Amd64fox and AYTROX of the official Spotify client, provided as an evaluation version, you use it at your own risk. Version stable: 1.1.94.870`"})
             }
             $n = ($lang).NoVariable6
             $contents = $discript
@@ -1025,11 +1025,11 @@ function Helper($paramname, $addstring) {
                 $exp_features.Remove('SimilarPlaylist')
             }
             $ofline = Check_verison_clients -param2 "offline"
-            if ($ofline -ge "1.1.94.864") {
+            if ($ofline -ge "1.1.94.870") {
                 $exp_features.Remove('LyricsEnabled'), $exp_features.Remove('PlaylistCreation'), 
                 $exp_features.Remove('SearchBox')
             }
-            if ($ofline -le "1.1.93.896") { $exp_features.Remove('NewHome') }
+            if ($ofline -le "1.1.94.864") { $exp_features.Remove('NewHome') }
             $n = ($lang).NoVariable2
             $contents = $exp_features
             $paramdata = $xpui_js
