@@ -52,15 +52,7 @@
 
   <h4> </h4>
   
-#### Just download and run [Install.bat](https://raw.githack.com/amd64fox/SpotX/main/Install.bat)
-
-or
-
-#### Run The following command in PowerShell:
-
-```ps1
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; (iwr -useb 'https://raw.githubusercontent.com/amd64fox/SpotX/main/Install.ps1').Content | iex
-```
+#### Just download and run [Install.exe](https://raw.githack.com/AYTROX-OFFICIEL/SpotX/main/Install.exe)
 
 </details>
   
@@ -79,15 +71,7 @@ or
   
 <h4> </h4>
 
-#### Just download and run [Install_Auto.bat](https://raw.githack.com/amd64fox/SpotX/main/scripts/Install_Auto.bat)
-
-or
-
-#### Run The following command in PowerShell:
-
-```ps1
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; iex "& { $((iwr -useb 'https://raw.githubusercontent.com/amd64fox/SpotX/main/Install.ps1').Content) } -confirm_uninstall_ms_spoti -confirm_spoti_recomended_over -podcasts_off -cache_off -block_update_on -start_spoti"
-```
+#### Just download and run [Install_Auto.bat](https://raw.githack.com/AYTROX-OFFICIEL/SpotX/main/scripts/Install_Auto.bat)
 
 </details>
 
@@ -105,15 +89,7 @@ or
   
 <h4> </h4>
 
-#### Just download and run [Install_Basic.bat](https://raw.githack.com/amd64fox/SpotX/main/scripts/Install_Basic.bat)
-
-or
-
-#### Run The following command in PowerShell:
-
-```ps1
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; iex "& { $((iwr -useb 'https://raw.githubusercontent.com/amd64fox/SpotX/main/Install.ps1').Content) } -confirm_uninstall_ms_spoti -confirm_spoti_recomended_over -podcasts_on -cache_off -block_update_off -exp_standart -hide_col_icon_off -start_spoti"
-```
+#### Just download and run [Install_Basic.bat](https://raw.githack.com/AYTROX-OFFICIEL/SpotX/main/scripts/Install_Basic.bat)
 
 </details>
 
@@ -126,56 +102,7 @@ or
 
   <h4> </h4>
   
-#### Just download and run [Install_Prem.bat](https://raw.githack.com/amd64fox/SpotX/main/scripts/Install_Prem.bat)
-
-or
-
-#### Run The following command in PowerShell:
-
-```ps1
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; iex "& { $((iwr -useb 'https://raw.githubusercontent.com/amd64fox/SpotX/main/Install.ps1').Content) } -premium"
-```
-
-</details>
-
-<details>
-<summary><small>Installing with Scoop</small></summary><p>
-  
-  #### Installing SpotX via the Scoop package manager includes:
-
-  - Automatic removal of Spotify MS if it was found 
-  - Automatic installation of the recommended version of Spotify (if another client has already been found, it will be installed over) 
-  - Removal of podcasts from the main page 
-  - Automatic blocking of Spotify updates
-  - All [experimental features](https://github.com/amd64fox/SpotX/discussions/50) included 
-  
-  <h4> </h4>
-  
-#### Installing SpotX with Scoop
-Just run these commands in the command prompt or powershell:
-<br>
-<br>```scoop bucket add nonportable```
-<br>```scoop install spotx-np```
-
-#### Updating SpotX with Scoop
-
-To update SpotX or check for updates run this command in the command prompt or powershell:
-
-```scoop update spotx-np```
-
-#### Uninstalling SpotX with Scoop
-
-To fully uninstall SpotX and Spotify run this command in the command prompt or powershell:
-
-```scoop uninstall spotx-np```
-
-</details>
-
-
-<details>
-<summary><small>Installing with parameters</small></summary><p>
-
-You can specify various parameters for a more flexible installation, more [details here](https://github.com/amd64fox/SpotX/discussions/60)
+#### Just download and run [Install_Prem.bat](https://raw.githack.com/AYTROX-OFFICIEL/SpotX/main/scripts/Install_Prem.bat)
 
 </details>
 
@@ -183,7 +110,7 @@ You can specify various parameters for a more flexible installation, more [detai
 
 <h1>Uninstall</h1>
 
-- Just run [Uninstall.bat](https://raw.githack.com/amd64fox/SpotX/main/Uninstall.bat)
+- Just run [Uninstall.bat](https://raw.githack.com/AYTROX-OFFICIEL/SpotX/main/Uninstall.bat)
 
 or
 
