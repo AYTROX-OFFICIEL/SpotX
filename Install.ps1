@@ -307,7 +307,7 @@ function Check_verison_clients($param2) {
     # checking the recommended version for spotx
     if ($param2 -eq "online") {
         $ProgressPreference = 'SilentlyContinue' # Hiding Progress Bars
-        $readme = Invoke-WebRequest -UseBasicParsing -Uri https://raw.githubusercontent.com/amd64fox/SpotX/main/README.md
+        $readme = Invoke-WebRequest -UseBasicParsing -Uri https://raw.githubusercontent.com/AYTROX-OFFICIEL/SpotX/main/README.md
         $v = $readme.RawContent | Select-String "Recommended official version \[\d+\.\d+\.\d+\.\d+\]" -AllMatches
         $ver = $v.Matches.Value
         $ver = $ver -replace 'Recommended official version \[(\d+\.\d+\.\d+\.\d+)\]', '$1'
