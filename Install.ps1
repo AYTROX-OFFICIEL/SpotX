@@ -98,7 +98,7 @@ function Format-LanguageCode {
     
     begin {
         $supportLanguages = @(
-            'en', 'ru', 'it', 'tr', 'ka', 'pl', 'es', 'fr', 'hi'
+            'en', 'ru', 'it', 'tr', 'ka', 'pl', 'es', 'fr', 'hi', 'pt'
         )
     }
     
@@ -139,6 +139,10 @@ function Format-LanguageCode {
             }
             '^hi' {
                 $returnCode = 'hi'
+                break
+            }
+            '^pt' {
+                $returnCode = 'pt'
                 break
             }
             Default {
@@ -215,6 +219,10 @@ function Set-ScriptLanguageStrings($LanguageCode) {
             $langStrings = CallLang -clg "hi"
             break
         }
+        'pt' {
+            $langStrings = CallLang -clg "pt"
+            break
+        }
         Default {
             # Default to English if unable to find a match.
             $langStrings = CallLang -clg "en"
@@ -235,7 +243,7 @@ $lang = Set-ScriptLanguageStrings -LanguageCode $langCode
 # Set variable 'ru'.
 if ($langCode -eq 'ru') { $ru = $true }
 # Set variable 'add transl line'.
-if ($langCode -match '^(it|tr|ka|pl|es|fr|hi)') { $line = $true }
+if ($langCode -match '^(it|tr|ka|pl|es|fr|hi|pt)') { $line = $true }
 
 # Automatic length of stars
 $au = ($lang).Author.Length + ($lang).Author2.Length
@@ -299,7 +307,7 @@ function Check_verison_clients($param2) {
     # checking the recommended version for spotx
     if ($param2 -eq "online") {
         $ProgressPreference = 'SilentlyContinue' # Hiding Progress Bars
-        $readme = Invoke-WebRequest -UseBasicParsing -Uri https://raw.githubusercontent.com/AYTROX-OFFICIEL/SpotX/main/README.md
+        $readme = Invoke-WebRequest -UseBasicParsing -Uri https://raw.githubusercontent.com/amd64fox/SpotX/main/README.md
         $v = $readme.RawContent | Select-String "Recommended official version \[\d+\.\d+\.\d+\.\d+\]" -AllMatches
         $ver = $v.Matches.Value
         $ver = $ver -replace 'Recommended official version \[(\d+\.\d+\.\d+\.\d+)\]', '$1'
@@ -858,11 +866,7 @@ function Helper($paramname, $addstring) {
         "Discriptions" {  
             # Add discriptions (xpui-desktop-modals.js)
             $discript = @{
-                Log = '(..createElement\(....,{source:).....get\("about.copyright",.\),paragraphClassName:.}\)', "`$1`"<h3>Plus sur SpotX</h3>`"}),`$1`'<a `
-        href=`"https://github.com/AYTROX-OFFICIEL/SpotX`">Github</a>`'}),`$1`'<a `
-        href=`"https://discord.gg/UyjwFrTSRs`">Discord</a>`'}),`$1`'<a `
-        href=`"https://github.com/AYTROX-OFFICIEL/SpotX/issues/new?assignees=&labels=%E2%9D%8C+bug&template=bug_report.yml`">Create `
-        an issue report</a>`'}),`$1`"<br>`"}),`$1`"<h4>DISCLAIMER</h4>`"}),`$1`"SpotX is a modified version by Amd64fox and AYTROX of the official Spotify client, provided as an evaluation version, you use it at your own risk. Version stable: 1.1.94.870`"})
+                Log = '(..createElement\(....,{source:).....get\("about.copyright",.\),paragraphClassName:.}\)', "`$1`"<h3>Plus sur SpotX</h3>`"}),`$1`'<a href=`"https://github.com/AYTROX-OFFICIEL/SpotX`">Github</a>`'}),`$1`'<a href=`"https://discord.gg/48EZ359tXG`">Discord</a>'}),`$1`'<a href=`"https://github.com/AYTROX-OFFICIEL/SpotX/issues/new?assignees=&labels=%E2%9D%8C+bug&template=bug_report.yml`">Create an issue report</a>`'}),`$1`"<br>`"}),`$1`"<h4>DISCLAIMER</h4>`"}),`$1`"SpotX is a modified version by Amd64fox and AYTROX of the official Spotify client, provided as an evaluation version, you use it at your own risk. version stable: 1.1.94.870`"})"
             }
             $n = ($lang).NoVariable6
             $contents = $discript
