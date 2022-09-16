@@ -1025,11 +1025,11 @@ function Helper($paramname, $addstring) {
                 $exp_features.Remove('SimilarPlaylist')
             }
             $ofline = Check_verison_clients -param2 "offline"
-            if ($ofline -ge "1.1.94.870") {
+            if ($ofline -ge "1.1.94.864") {
                 $exp_features.Remove('LyricsEnabled'), $exp_features.Remove('PlaylistCreation'), 
                 $exp_features.Remove('SearchBox')
             }
-            if ($ofline -le "1.1.94.864") { $exp_features.Remove('NewHome') }
+            if ($ofline -le "1.1.93.896") { $exp_features.Remove('NewHome') }
             $n = ($lang).NoVariable2
             $contents = $exp_features
             $paramdata = $xpui_js
