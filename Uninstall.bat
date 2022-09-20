@@ -1,7 +1,7 @@
 @echo off
 SETLOCAL ENABLEDELAYEDEXPANSION
 echo *****************
-echo Author: @amd64fox
+echo Author: @amd64fox - AYTROX
 echo *****************
 echo Removing Patch...
 
@@ -54,6 +54,10 @@ if exist "%Appdata%\Spotify\Apps\xpui\i18n\ru.json.bak" (
 
 if exist "%Appdata%\Spotify\blockthespot_log.txt" (
     del /s /q "%Appdata%\Spotify\blockthespot_log.txt" > NUL 2>&1
+)
+
+if exist ".\SpotX" (
+    rd /s /q .\SpotX > NUL 2>&1
 )
 
 if exist "%Appdata%\Spotify\cache" (
