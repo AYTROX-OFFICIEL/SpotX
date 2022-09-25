@@ -19,7 +19,7 @@
     Prem            = "Modification pour compte prémium..."
     OldV            = "Ancienne version de Spotify trouvée"
     OldV2           = "Votre version Spotify {0} est dépassée, il est recommandée de mettre à jour vers la {1}"
-    OldV3           = "La mise à jour 1.1.95.889 fonctionne à moitier, Voulez-vous faire la mise à jour ? [Y/N]"
+    OldV3           = "Voulez-vous faire la mise à jour ? [Y/N]"
     AutoUpd         = "Mise à jour automatique vers la version recommandée"
     DelOrOver       = "Voulez-vous désinstaller la version actuelle {0} ou installer par dessus? Y [Désinstaller] / N [Installer par dessus]"
     DelOld          = "Désinstallation de l'ancien Spotify..."
