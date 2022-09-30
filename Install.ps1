@@ -888,7 +888,7 @@ function Helper($paramname, $addstring) {
         "Discriptions" {  
             # Add discriptions (xpui-desktop-modals.js)
             $discript = @{
-                Log = '((..createElement|children:\(.{1,7}\))\(....,{source:).....get\("about.copyright",.\),paragraphClassName:.}\)', "`$1`"<h3>Plus sur SpotX</h3><a href=`'https://github.com/AYTROX-OFFICIEL/SpotX`'>Github</a><br><a href=`'https://dsc.gg/AYTROX'`>Discord</a><br><a href=`'https://github.com/AYTROX-OFFICIEL/SpotX/issues/new?assignees=&labels=%E2%9D%8C+bug&template=bug_report.yml`'>Create an issue report</a><br> <br/><h4>DISCLAIMER</h4>SpotX est une version modifer de spotify, provided as an evaluation version, you use it at your own risk. SpotX by Amd64Fox and AYTROX, version stable: 1.1.95.893`"})"
+                Log = '((..createElement|children:\(.{1,7}\))\(....,{source:).....get\("about.copyright",.\),paragraphClassName:.}\)', "`$1`"<h3>Plus sur SpotX</h3><img src=`'https://aytrox.com/images/logo.png'`> <a href=`'https://github.com/AYTROX-OFFICIEL/SpotX`'>Github</a><br><a href=`'https://dsc.gg/AYTROX'`>Discord</a><br><a href=`'https://github.com/AYTROX-OFFICIEL/SpotX/issues/new?assignees=&labels=%E2%9D%8C+bug&template=bug_report.yml`'>Create an issue report</a><br> <br/><h4>DISCLAIMER</h4>SpotX est une version modifer de spotify, provided as an evaluation version, you use it at your own risk. SpotX by Amd64Fox and <a href=`'https://aytrox.wixsite.com/website'`>AYTROX</a>, version stable: 1.1.95.893`"})"
             }
             $n = ($lang).NoVariable6
             $contents = $discript
