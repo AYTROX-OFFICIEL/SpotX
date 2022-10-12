@@ -163,13 +163,13 @@ function Format-LanguageCode {
                 $returnCode = 'ro'
                 break
             }
-	    '^de' {
+            '^de' {
                 $returnCode = 'de'
                 break
             }
-	    '^hu' {
-	        $returnCode = 'hu'
-		break
+            '^hu' {
+                $returnCode = 'hu'
+                break
             }
             Default {
                 $returnCode = $PSUICulture.Remove(2)
@@ -265,10 +265,10 @@ function Set-ScriptLanguageStrings($LanguageCode) {
             $langStrings = CallLang -clg "de"
             break
         }
-	'hu' {
-	    $langStrings = CallLang -clg "hu"
-	    break
-	}
+        'hu' {
+            $langStrings = CallLang -clg "hu"
+            break
+        }
         Default {
             # Default to English if unable to find a match.
             $langStrings = CallLang -clg "en"
@@ -404,7 +404,7 @@ function downloadScripts($param1) {
         $links = $Matches.Values
     }
     if ($ru -and $param1 -eq "cache-spotify") {
-        $links2 = "https://raw.githubusercontent.com/SpotX-CLI/SpotX-Win/main/scripts/cache/cache_spotify_ru.ps1"
+        $links2 = "https://raw.githubusercontent.com/AYTROX-OFFICIEL/SpotX/main/scripts/cache/cache_spotify_ru.ps1"
     }
     if (!($ru) -and $param1 -eq "cache-spotify" ) { 
         $links2 = "https://raw.githubusercontent.com/AYTROX-OFFICIEL/SpotX/main/scripts/cache/cache_spotify.ps1"
@@ -938,21 +938,9 @@ function Helper($paramname, $addstring) {
                 ConnectUnlock4      = 'return (..isDisabled)(\?(..createElement|\(.{1,10}\))\(..,)', 'return false$2'
                 # Removing the track download quality switch
                 DownloadQuality     = '(\(.,..jsxs\)\(.{1,3}|..createElement\(.{1,4}),{filterMatchQuery:.{1,6}get\("desktop.settings.downloadQuality.title.+?(children:.{1,2}\(.,.\).+?,|xe\(.,.\).+?,)', ''
-                # temporary Russian strings for xpui.js
-                Creator             = '("creator",value:")Creator("\})', '$1Автор$2'
-                CustomOrder         = '("custom-order",value:")Custom order("\})', '$1Особая$2'
-                Alphabetical        = '("alphabetical",value:")Alphabetical("\})', '$1Алфавитная$2'
-                RecentlyAdded       = '("recently-added",value:")Recently added("\})', '$1Недавно добавленные$2' 
-                MostRecent          = '("most-recent",value:")Most recent("\})', '$1Самые последние$2'
             }
             if ($bts) {
                 $offadson_fullscreen.Remove('Bilboard'), $offadson_fullscreen.Remove('AudioAds')
-            }
-            $ofline = Check_verison_clients -param2 "offline"
-            if (!($ru) -or $ofline -le "1.1.94.872") {
-                $offadson_fullscreen.Remove('Creator'), $offadson_fullscreen.Remove('CustomOrder'), $offadson_fullscreen.Remove('Alphabetical'),
-                $offadson_fullscreen.Remove('RecentlyAdded'), $offadson_fullscreen.Remove('MostRecent')
-                
             }
 
             $n = ($lang).NoVariable2
@@ -1028,17 +1016,7 @@ function Helper($paramname, $addstring) {
                 AlbumReleaseOther   = '"other": "\\"%name%\\" was released %years% years ago this week!"', '"other": "\"%name%\" был выпущен %years% года назад на этой неделе!"'
                 Speed               = '"Speed [{]0[}]×"', '"Скорость {0}×"'                            
                 Confidential        = '"This is a highly confidential test. Do not share details of this test or any song you create outside of Spotify."', '"Это очень конфиденциальный тест. Не делитесь подробностями этого теста или какой-либо песни, которую вы создаете, за пределами Spotify."'          
-                Cache               = '"Cache:"', '"Кеш:"'
-                Downloads           = '"Downloads:"', '"Загрузки:"'
                 StartGroupSession   = '"How to start a Group Session"', '"Как начать групповую сессию"'
-                ForPremium          = '"For: Premium on mobile and tablet"', '"Для: Premium на мобильных устройствах и планшетах"'
-                GroupSessionControl = '"In a group session, everyone invited – no matter where they are – can control what plays."', '"На групповом сеансе каждый приглашенный – независимо от того, где он находится – может контролировать то, что играет."'
-                OpenSpotify         = '"Open Spotify and play something."', '"Откройте Spotify и включите что-нибудь."'
-                TapIcon             = '"Tap [{]icon[}] at the bottom of the screen."', '"Нажмите {icon} в нижней части экрана."'
-                TapStart            = '"Tap Start a remote group session."', '"Нажмите Начать сеанс удаленной группы."'
-                TapInvite           = '"Tap Invite friends."', '"Нажмите Пригласить друзей."'
-                AddFiends           = '"Or, if you want to invite additional friends after you.ve started a group session, tap the avatar at the bottom of the screen and tap [{]icon[}]."', '"Или, если вы хотите пригласить дополнительных друзей после начала группового сеанса, коснитесь аватара в нижней части экрана и нажмите {icon}."'
-                Share               = '"Select how you want to share, or choose Copy link and send it to your friends."', '"Выберите, как вы хотите поделиться, или выберите Скопировать ссылку и отправить ее своим друзьям."'
                 LearnMore           = '"Learn more"', '"Узнать больше"'
                 Author              = '"Author"', '"Автор"'
                 Creator             = '"Creator"', '"Создатель"'
@@ -1061,7 +1039,7 @@ function Helper($paramname, $addstring) {
                 LikedSongs          = '"Liked Songs"', '"Понравившиеся песни"'
                 YourEpisodes        = '"Your Episodes"', '"Ваши эпизоды"'
                 LocalFiles          = '"Local Files"', '"Локальные файлы"'
-		EnhancePrem         = '"Enhance your playlists with Premium"', '"Улучшите свои плейлисты с Premium"'
+                EnhancePrem         = '"Enhance your playlists with Premium"', '"Улучшите свои плейлисты с Premium"'
                 EnhancePrem2        = '"Instantly add personalized tracks that match this playlist.s unique sound"', '"Мгновенно добавляйте персонализированные треки, соответствующие уникальному звучанию этого плейлиста"'
                 EnhancePrem3        = '"Enhance %playlist%"', '"Улучшить %playlist%"'
                 EnhancePrem4        = '"Enhanced"', '"Улучшенный"'
@@ -1121,7 +1099,7 @@ function Helper($paramname, $addstring) {
             if ($new_lyrics_off) { $exp_features.Remove('LyricsMatch') }
             if ($equalizer_off) { $exp_features.Remove('Equalizer') }
             if (!($device_picker_old)) { $exp_features.Remove('DevicePicker') }
-            if ($made_for_you_off -or $online -ge "1.1.96.783") { $exp_features.Remove('MadeForYou') }
+            if ($made_for_you_off -or $ofline -ge "1.1.96.783") { $exp_features.Remove('MadeForYou') }
             if ($exp_standart) {
                 $exp_features.Remove('EnhanceLiked'), $exp_features.Remove('EnhancePlaylist'), 
                 $exp_features.Remove('DisographyArtist'), $exp_features.Remove('LyricsMatch'), 
@@ -1737,4 +1715,4 @@ if ($cache_install) {
 
 if ($start_spoti) { Start-Process -WorkingDirectory $spotifyDirectory -FilePath $spotifyExecutable }
 
-Write-Host ($lang).InstallComplete`n -ForegroundColor Greenparam
+Write-Host ($lang).InstallComplete`n -ForegroundColor Green
