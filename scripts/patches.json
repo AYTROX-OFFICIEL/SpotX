@@ -1,0 +1,451 @@
+{
+    "free": {
+        "bilboard": {
+            "versions": {
+                "from": "1.1.70",
+                "do": ""
+            },
+            "match": ".(\\?\\[.{1,6}[a-zA-Z].leaderboard,)",
+            "replace": "false$1"
+        },
+        "fullscreen": {
+            "versions": {
+                "from": "1.1.58",
+                "do": ""
+            },
+            "match": "(return|.=.=>)\"free\"===(.+?)(return|.=.=>)\"premium\"===",
+            "replace": "$1\"premium\"===$2$3\"free\"==="
+        },
+        "audioads": {
+            "version": {
+                "from": "1.1.58",
+                "do": ""
+            },
+            "match": "(case .:|async enable\\(.\\){)(this.enabled=.+?\\(.{1,3},\"audio\"\\),|return this.enabled=...+?\\(.{1,3},\"audio\"\\))((;case 4:)?this.subscription=this.audioApi).+?this.onAdMessage\\)",
+            "replace": "$1$3.cosmosConnector.increaseStreamTime(-100000000000)"
+        },
+        "emptyblock": {
+            "version": {
+                "from": "1.1.58",
+                "do": ""
+            },
+            "match": "adsEnabled:!0",
+            "replace": "adsEnabled:!1"
+        },
+        "playlistsponsor": {
+            "version": {
+                "from": "1.1.58",
+                "do": ""
+            },
+            "match": "allSponsorships",
+            "replace": ""
+        },
+        "connectold": {
+            "version": {
+                "from": "1.1.70",
+                "do": "1.1.97"
+            },
+            "match": [
+                " connect-device-list-item--disabled",
+                "connect-picker.unavailable-to-control",
+                "(\"button\",{className:.,disabled:)(..)"
+            ],
+            "replace": [
+                "",
+                "spotify-connect",
+                "$1false"
+            ]
+        },
+        "connectnew": {
+            "version": {
+                "from": "1.1.91",
+                "do": ""
+            },
+            "match": "return (..isDisabled)(\\?(..createElement|\\(.{1,10}\\))\\(..,)",
+            "replace": "return false$2"
+        },
+        "downloadquality": {
+            "version": {
+                "from": "1.1.70",
+                "do": ""
+            },
+            "match": "(\\(.,..jsxs\\)\\(.{1,3}|(.\\(\\).|..)createElement\\(.{1,4}),{(filterMatchQuery|filter:.,title|(variant:\"viola\",semanticColor:\"textSubdued\"|..:\"span\",variant:.{3,6}mesto,color:.{3,6}),htmlFor:\"desktop.settings.downloadQuality.+?).{1,6}get\\(\"desktop.settings.downloadQuality.title.+?(children:.{1,2}\\(.,.\\).+?,|\\(.,.\\){3,4},|,.\\)}},.\\(.,.\\)\\),)",
+            "replace": ""
+        },
+        "downloadicon": {
+            "version": {
+                "from": "1.1.74",
+                "do": ""
+            },
+            "add": " .BKsbV2Xl786X9a09XROH{display:none}"
+        },
+        "submenudownload": {
+            "version": {
+                "from": "1.1.74",
+                "do": ""
+            },
+            "add": " button.wC9sIed7pfp47wZbmU6m.pzkhLqffqF_4hucrVVQA{display:none}"
+        },
+        "veryhighstream": {
+            "add": " #desktop\\.settings\\.streamingQuality>option:nth-child(5) {display:none}"
+        }
+    },
+    "others": {
+        "discriptions": {
+            "version": {
+                "from": "1.1.70",
+                "do": ""
+            },
+            "match": "((..createElement|children:\\(.{1,7}\\))\\(....,{source:).....get\\(\"about.copyright\",.\\),paragraphClassName:.}\\)",
+            "replace": "$1\"<h3>Plus sur SpotX</h3><img src=`'https://github.com/fluidicon.png'` width=`'30'` height=`'30'`> <a href=`'https://github.com/AYTROX-OFFICIEL/SpotX`'>Github</a><br></br><img src=`'https://assets-global.website-files.com/6257adef93867e50d84d30e2/62f0a9e560a799075a4e0cea_Discord-Logo-White%20(3).png'` width=`'30'` height=`'30'`> <a href=`'https://dsc.gg/AYTROX'`>Discord</a><br></br><a href=`'https://github.com/AYTROX-OFFICIEL/SpotX/issues/new?assignees=&labels=%E2%9D%8C+bug&template=bug_report.yml`'>Create an issue report</a><br> <br/><h4>DISCLAIMER</h4>SpotX est une version modifer de spotify, provided as an evaluation version, you use it at your own risk. SpotX by Amd64Fox and <a href=`'https://aytrox.wixsite.com/website'`>AYTROX</a> © 2022 <h5>Version Stable</h5>1.1.96.785`\"})"
+        },
+        "podcastsoff": {
+            "version": {
+                "from": "1.1.70",
+                "do": "1.1.92"
+            },
+            "match": "withQueryParameters\\(.\\){return this.queryParameters=.,this}",
+            "replace": "withQueryParameters(e){return this.queryParameters=(e.types?{...e, types: e.types.split(\",\").filter(_ => ![\"episode\",\"show\"].includes(_)).join(\",\")}:e),this}"
+        },
+        "podcastsoff2": {
+            "version": {
+                "from": "1.1.93",
+                "do": "1.1.96"
+            },
+            "match": "(\\!Array.isArray\\(.\\)\\|\\|.===..length)",
+            "replace": "$1||e.children[0].key.includes('episode')||e.children[0].key.includes('show')"
+        },
+        "podcastsoff3": {
+            "version": {
+                "from": "1.1.97",
+                "do": ""
+            },
+            "match": "(\\!Array.isArray\\(.\\)\\|\\|.===..length)",
+            "replace": "$1||e[0].key.includes('episode')||e[0].key.includes('show')"
+        },
+        "lyricscolor": {
+            "version": {
+                "from": "1.1.70",
+                "do": ""
+            },
+            "theme": {
+                "1": {
+                    "pasttext": "#ffffff4a",
+                    "current": "#ffffffc7",
+                    "next": "#ffffff4a",
+                    "hover": "#ffffffc7",
+                    "background": "#121212",
+                    "maxmatch": "#ffffff94"
+                },
+                "2": {
+                    "pasttext": "#ffffffb8",
+                    "current": "#ffffffc7",
+                    "next": "#322319",
+                    "hover": "#ffffffc7",
+                    "background": "#956b4b",
+                    "maxmatch": "#322319"
+                },
+                "3": {
+                    "pasttext": "#ffffff6b",
+                    "current": "#ffffffc7",
+                    "next": "#2e080b",
+                    "hover": "#ffffffc7",
+                    "background": "#c62736f2",
+                    "maxmatch": "#2e080b"
+                },
+                "4": {
+                    "pasttext": "#E40909B3",
+                    "current": "#C2C2C2",
+                    "next": "#CA861A",
+                    "hover": "#0FD40F",
+                    "background": "#121212",
+                    "maxmatch": "#C2C2C2"
+                }
+            },
+            "match": [
+                "(H2J92dVdr0ykdOX5azL1{color:)var\\(--lyrics-color-active\\);opacity:..",
+                "((TDPh45khCfG51fNwNIiw|E64X_eoy6xsJmDdKKHja){color:)var\\(--lyrics-color-active\\)",
+                "(NHVfxGs2HwmI_fly2JC4{color:)var\\(--lyrics-color-inactive\\)",
+                "(NHVfxGs2HwmI_fly2JC4:hover{color:)var\\(--lyrics-color-active\\)",
+                "var\\(--lyrics-color-background\\)",
+                "(iq4cgi0YEKr6DGaTtzUj{color:)var\\(--lyrics-color-inactive\\)"
+            ],
+            "replace": [
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+            ]
+        },
+        "navaltfix": {
+            "version": {
+                "from": "1.1.94",
+                "do": ""
+            },
+            "add": [
+                " .nav-alt .Root__top-container {background: #00000085;gap: 6px;padding: 8px;}",
+                " .Root__fixed-top-bar {background-color: #00000000}'"
+            ]
+        },
+        "collaboraticon": {
+            "version": {
+                "from": "1.1.83",
+                "do": ""
+            },
+            "add": " .X1lXSiVj0pzhQCUo_72A{display:none}"
+        },
+        "byspotx": {
+            "add": "// Patched by SpotX"
+        },
+        "offrujs": {
+            "version": {
+                "from": "1.1.92",
+                "do": ""
+            },
+            "match": "(\\[(.)\\.go\\.en,)(.+?\\])",
+            "replace": "$1$2.go.ru]"
+        },
+        "disablesentry": {
+            "version": {
+                "from": "1.1.70",
+                "do": ""
+            },
+            "match": "(?:prototype\\.)?bindClient(?:=function)?\\(\\w+\\)\\{",
+            "replace": "${0}return;"
+        },
+        "disablelogging": {
+            "version": {
+                "from": "1.1.70",
+                "do": ""
+            },
+            "match": "sp://logging/v3/\\w+",
+            "replace": ""
+        },
+        "removertl": {
+            "version": {
+                "from": "1.1.70",
+                "do": ""
+            },
+            "match": [
+                "}\\[dir=ltr\\]\\s?([.a-zA-Z\\d[_]+?,\\[dir=ltr\\])",
+                "}\\[dir=ltr\\]\\s?",
+                "html\\[dir=ltr\\]",
+                ",\\s?\\[dir=rtl\\].+?(\\{.+?\\})",
+                "[\\w\\-\\.]+\\[dir=rtl\\].+?\\{.+?\\}",
+                "\\}\\[lang=ar\\].+?\\{.+?\\}",
+                "\\}\\[dir=rtl\\].+?\\{.+?\\}",
+                "\\}html\\[dir=rtl\\].+?\\{.+?\\}",
+                "\\}html\\[lang=ar\\].+?\\{.+?\\}",
+                "\\[lang=ar\\].+?\\{.+?\\}",
+                "html\\[dir=rtl\\].+?\\{.+?\\}",
+                "html\\[lang=ar\\].+?\\{.+?\\}",
+                "\\[dir=rtl\\].+?\\{.+?\\}",
+                "\\[dir=str\\]"
+            ],
+            "replace": [
+                "}[dir=str] $1",
+                "} ",
+                "html",
+                "$1",
+                "",
+                "}",
+                "}",
+                "}",
+                "}",
+                "",
+                "",
+                "",
+                "",
+                "[dir=ltr]"
+            ]
+        }
+    },
+    "exp": {
+        "similarplaylist": {
+            "version": {
+                "from": "1.1.85",
+                "do": ""
+            },
+            "match": ",(.\\.isOwnedBySelf&&)((\\(.{0,11}\\)|..createElement)\\(.{1,3}Fragment,.+?{(uri:.|).+?contextmenu.create-similar-playlist\"\\)}\\),)",
+            "replace": ",$2$1"
+        },
+        "likedartist": {
+            "version": {
+                "from": "1.1.70",
+                "do": ""
+            },
+            "match": "(Enable Liked Songs section on Artist page\",default:)(!1)",
+            "replace": "$1true"
+        },
+        "blockusers": {
+            "version": {
+                "from": "1.1.70",
+                "do": ""
+            },
+            "match": "(Enable block users feature in clientX\",default:)(!1)",
+            "replace": "$1true"
+        },
+        "quicksilver": {
+            "version": {
+                "from": "1.1.70",
+                "do": ""
+            },
+            "match": "(Enables quicksilver in-app messaging modal\",default:)(!0)",
+            "replace": "$1false"
+        },
+        "ignorrec": {
+            "version": {
+                "from": "1.1.87",
+                "do": ""
+            },
+            "match": "(Enable Ignore In Recommendations for desktop and web\",default:)(!1)",
+            "replace": "$1true"
+        },
+        "prod": {
+            "version": {
+                "from": "1.1.75",
+                "do": ""
+            },
+            "match": "(Enable Playlist Permissions flows for Prod\",default:)(!1)",
+            "replace": "$1true"
+        },
+        "showingballoons": {
+            "version": {
+                "from": "1.1.89",
+                "do": ""
+            },
+            "match": "(Enable showing balloons on album release date anniversaries\",default:)(!1)",
+            "replace": "$1true"
+        },
+        "enhanceliked": {
+            "version": {
+                "from": "1.1.86",
+                "do": ""
+            },
+            "match": "(Enable Enhance Liked Songs UI and functionality\",default:)(!1)",
+            "replace": "$1true"
+        },
+        "enhanceplaylist": {
+            "version": {
+                "from": "1.1.84",
+                "do": ""
+            },
+            "match": "(Enable Enhance Playlist UI and functionality for end-users\",default:)(!1)",
+            "replace": "$1true"
+        },
+        "disographyartist": {
+            "version": {
+                "from": "1.1.79",
+                "do": ""
+            },
+            "match": "(Enable a condensed disography shelf on artist pages\",default:)(!1)",
+            "replace": "$1true"
+        },
+        "lyricsmatch": {
+            "version": {
+                "from": "1.1.87",
+                "do": ""
+            },
+            "match": "(Enable Lyrics match labels in search results\",default:)(!1)",
+            "replace": "$1true"
+        },
+        "equalizer": {
+            "version": {
+                "from": "1.1.88",
+                "do": ""
+            },
+            "match": "(Enable audio equalizer for Desktop and Web Player\",default:)(!1)",
+            "replace": "$1true"
+        },
+        "devicepicker": {
+            "version": {
+                "from": "1.1.90",
+                "do": "1.1.95"
+            },
+            "match": "(Enable showing a new and improved device picker UI\",default:)(!1)",
+            "replace": "$1true"
+        },
+        "devicepickerold": {
+            "version": {
+                "from": "1.1.96",
+                "do": "1.1.97"
+            },
+            "match": "(Enable showing a new and improved device picker UI\",default:)(!0)",
+            "replace": "$1false"
+        },
+        "newhome": {
+            "version": {
+                "from": "1.1.94",
+                "do": ""
+            },
+            "match": "(Enable the new home structure and navigation\",values:.,default:.)(.DISABLED)",
+            "replace": "$1.ENABLED_CENTER"
+        },
+        "madeforyou": {
+            "version": {
+                "from": "1.1.70",
+                "do": "1.1.95"
+            },
+            "match": "(Show \"Made For You\" entry point in the left sidebar.,default:)(!1)",
+            "replace": "$1true"
+        },
+        "clearcache": {
+            "version": {
+                "from": "1.1.92",
+                "do": ""
+            },
+            "match": "(Enable option in settings to clear all downloads\",default:)(!1)",
+            "replace": "$1true"
+        },
+        "carouselsonhome": {
+            "version": {
+                "from": "1.1.93",
+                "do": ""
+            },
+            "match": "(Use carousels on Home\",default:)(!1)",
+            "replace": "$1true"
+        },
+        "leftsidebar": {
+            "version": {
+                "from": "1.1.94",
+                "do": ""
+            },
+            "match": "(Enable Your Library X view of the left sidebar\",default:)(!1)",
+            "replace": "$1true"
+        },
+        "lyricsenabled": {
+            "version": {
+                "from": "1.1.70",
+                "do": "1.1.93"
+            },
+            "match": "(With this enabled, clients will check whether tracks have lyrics available\",default:)(!1)",
+            "replace": "$1true"
+        },
+        "playlistcreat": {
+            "version": {
+                "from": "1.1.70",
+                "do": "1.1.93"
+            },
+            "match": "(Enables new playlist creation flow in Web Player and DesktopX\",default:)(!1)",
+            "replace": "$1true"
+        },
+        "searchbox": {
+            "version": {
+                "from": "1.1.86",
+                "do": "1.1.93"
+            },
+            "match": "(Adds a search box so users are able to filter playlists when trying to add songs to a playlist using the contextmenu\",default:)(!1)",
+            "replace": "$1true"
+        },
+        "rightsidebar": {
+            "version": {
+                "from": "1.1.98",
+                "do": ""
+            },
+            "match": "(Enable the view on the right sidebar\",default:)(!1)",
+            "replace": "$1true"
+        }
+    }
+}
