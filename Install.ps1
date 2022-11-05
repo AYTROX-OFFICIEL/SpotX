@@ -81,6 +81,9 @@ param
     [Parameter(HelpMessage = 'Use bts patch.')]
     [switch]$bts,
 
+    [Parameter(HelpMessage = 'Static color for lyrics.')]
+    [int16]$lyrics_stat,
+
     [Parameter(HelpMessage = 'Error log ru string.')]
     [switch]$err_ru,
     
@@ -104,7 +107,7 @@ function Format-LanguageCode {
     
     begin {
         $supportLanguages = @(
-            'en', 'ru', 'it', 'tr', 'ka', 'pl', 'es', 'fr', 'hi', 'pt', 'id', 'vi', 'ro', 'de', 'hu'
+            'en', 'ru', 'it', 'tr', 'ka', 'pl', 'es', 'fr', 'hi', 'pt', 'id', 'vi', 'ro', 'de', 'hu', 'zh'
         )
     }
     
@@ -169,6 +172,10 @@ function Format-LanguageCode {
             }
             '^hu' {
                 $returnCode = 'hu'
+                break
+            }
+            '^zh' {
+                $returnCode = 'zh'
                 break
             }
             Default {
@@ -269,6 +276,10 @@ function Set-ScriptLanguageStrings($LanguageCode) {
             $langStrings = CallLang -clg "hu"
             break
         }
+        'zh' {
+            $langStrings = CallLang -clg "zh"
+            break
+        }
         Default {
             # Default to English if unable to find a match.
             $langStrings = CallLang -clg "en"
@@ -289,7 +300,7 @@ $lang = Set-ScriptLanguageStrings -LanguageCode $langCode
 # Set variable 'ru'.
 if ($langCode -eq 'ru') { $ru = $true }
 # Set variable 'add translation line'.
-if ($langCode -match '^(it|tr|ka|pl|es|fr|hi|pt|id|vi|ro|de|hu)') { $line = $true }
+if ($langCode -match '^(it|tr|ka|pl|es|fr|hi|pt|id|vi|ro|de|hu|zh)') { $line = $true }
 
 # Automatic length of stars
 $au = ($lang).Author.Length + ($lang).Author2.Length
@@ -893,7 +904,10 @@ if (!($cache_on) -and !($cache_off)) {
 if ($exp_standart) { Write-Host ($lang).ExpStandart`n }
 if ($exp_spotify) { Write-Host ($lang).ExpSpotify`n }
 
-function Helper($paramname, $addstring) {
+$url = "https://raw.githubusercontent.com/AYTROX-OFFICIEL/SpotX/main/scripts/patches.json"
+$webjson = (Invoke-WebRequest -UseBasicParsing -Uri $url).Content | ConvertFrom-Json
+$ofline = Check_verison_clients -param2 "offline"
+function Helper($paramname) {
 
     switch ( $paramname ) {
         "HtmlLicMin" { 
@@ -909,60 +923,57 @@ function Helper($paramname, $addstring) {
             $contents = $html_lic_min
             $paramdata = $xpuiContents_html
         }
+        "Lyrics-color" { 
+            # Static color for lyrics (xpui-routes-lyrics.css)
+
+            $webjson.others.lyricscolor.replace[0] = '$1' + $webjson.others.lyricscolor.theme.$lyrics_stat.pasttext 
+            $webjson.others.lyricscolor.replace[1] = '$1' + $webjson.others.lyricscolor.theme.$lyrics_stat.current 
+            $webjson.others.lyricscolor.replace[2] = '$1' + $webjson.others.lyricscolor.theme.$lyrics_stat.next 
+            $webjson.others.lyricscolor.replace[3] = '$1' + $webjson.others.lyricscolor.theme.$lyrics_stat.hover 
+            $webjson.others.lyricscolor.replace[4] = $webjson.others.lyricscolor.theme.$lyrics_stat.background 
+            $webjson.others.lyricscolor.replace[5] = '$1' + $webjson.others.lyricscolor.theme.$lyrics_stat.maxmatch 
+
+            $contents = "lyricscolor"
+            $json = $webjson.others
+            $paramdata = $xpui_lyrics
+
+        }
         "Discriptions" {  
             # Add discriptions (xpui-desktop-modals.js)
-            $discript = @{
-                Log = '((..createElement|children:\(.{1,7}\))\(....,{source:).....get\("about.copyright",.\),paragraphClassName:.}\)', "`$1`"<h3>Plus sur SpotX</h3><img src=`'https://github.com/fluidicon.png'` width=`'30'` height=`'30'`> <a href=`'https://github.com/AYTROX-OFFICIEL/SpotX`'>Github</a><br></br><img src=`'https://assets-global.website-files.com/6257adef93867e50d84d30e2/62f0a9e560a799075a4e0cea_Discord-Logo-White%20(3).png'` width=`'30'` height=`'30'`> <a href=`'https://dsc.gg/AYTROX'`>Discord</a><br></br><a href=`'https://github.com/AYTROX-OFFICIEL/SpotX/issues/new?assignees=&labels=%E2%9D%8C+bug&template=bug_report.yml`'>Create an issue report</a><br> <br/><h4>DISCLAIMER</h4>SpotX est une version modifer de spotify, provided as an evaluation version, you use it at your own risk. SpotX by Amd64Fox and <a href=`'https://aytrox.wixsite.com/website'`>AYTROX</a> © 2022 <h5>Version Stable</h5>1.1.96.785`"})"
-            }
             $n = ($lang).NoVariable6
-            $contents = $discript
+            $contents = "discriptions"
+            $json = $webjson.others
             $paramdata = $xpui_desktop_modals
 
         }
         "OffadsonFullscreen" { 
-            $offadson_fullscreen = @{
-                # Removing a billboard on the homepage
-                Bilboard            = '.(\?\[.{1,6}[a-zA-Z].leaderboard,)', 'false$1' 
-                # Removing audio ads
-                AudioAds            = '(case .:)return this.enabled=...+?(;case .:this.subscription=this.audioApi).+?(;case .)', '$1$2.cosmosConnector.increaseStreamTime(-100000000000)$3'
-                # Removing an empty block
-                EmptyBlockAd        = 'adsEnabled:!0', 'adsEnabled:!1'
-                # Fullscreen act., removing upgrade menu, button
-                FullScreenAd        = '(return|.=.=>)"free"===(.+?)(return|.=.=>)"premium"===', '$1"premium"===$2$3"free"==='
-                # Disabling a playlist sponsor
-                PlaylistSponsorsOff = 'allSponsorships', ''
-                # Connect unlock test for 1.1.91 >
-                ConnectUnlock       = ' connect-device-list-item--disabled', ''
-                ConnectUnlock2      = 'connect-picker.unavailable-to-control', 'spotify-connect'
-                ConnectUnlock3      = '(className:.,disabled:)(..)', '$1false'
-                ConnectUnlock4      = 'return (..isDisabled)(\?(..createElement|\(.{1,10}\))\(..,)', 'return false$2'
-                # Removing the track download quality switch
-                DownloadQuality     = '(\(.,..jsxs\)\(.{1,3}|..createElement\(.{1,4}),{filterMatchQuery:.{1,6}get\("desktop.settings.downloadQuality.title.+?(children:.{1,2}\(.,.\).+?,|xe\(.,.\).+?,)', ''
-            }
-            if ($bts) {
-                $offadson_fullscreen.Remove('Bilboard'), $offadson_fullscreen.Remove('AudioAds')
-            }
+           
+            if ($bts) { $webjson.free.psobject.properties.remove('bilboard'), $webjson.free.psobject.properties.remove('audioads') }
+
+            $webjson.free.psobject.properties.remove('submenudownload'), $webjson.free.psobject.properties.remove('veryhighstream'), $webjson.free.psobject.properties.remove('downloadicon')
+            
+            if ($ofline -ge "1.1.98.683") { $webjson.free.psobject.properties.remove('connectold') }
 
             $n = ($lang).NoVariable2
-            $contents = $offadson_fullscreen
+            $contents = $webjson.free.psobject.properties.name
+            $json = $webjson.free
             $paramdata = $xpui_js
         }
         "OffPodcasts" {  
             # Turn off podcasts
-            $podcasts_off = @{
-                PodcastsOff = '(\!Array.isArray\(.\)\|\|.===..length)', "`$1||e.children[0].key.includes('episode')||e.children[0].key.includes('show')"
-            }
             $n = ($lang).NoVariable5
-            $contents = $podcasts_off
-            $paramdata = $xpui_homev2
+            if ($ofline -le "1.1.92.647") { $podcats = "podcastsoff" }
+            if ($ofline -le "1.1.96.785" -and $ofline -ge "1.1.93.896") { $podcats = "podcastsoff2" }
+            if ($ofline -ge "1.1.97.952") { $podcats = "podcastsoff3" }
+            $contents = $podcats
+            $json = $webjson.others
+            $paramdata = $xpui_podcast
         }
         "OffRujs" { 
             # Remove all languages except En and Ru from xpui.js
-            $rus_js = @{
-                OffRujs = '(\[a\.go\.en,)(.+?\])', '$1a.go.ru]'
-            }
             $n = ($lang).NoVariable2
-            $contents = $rus_js
+            $contents = "offrujs"
+            $json = $webjson.others
             $paramdata = $xpui_js
         }
         "RuTranslate" { 
@@ -1068,69 +1079,87 @@ function Helper($paramname, $addstring) {
 
         "ExpFeature" { 
             # Experimental Feature Standart
-            $exp_features = @{
-                LikedArtistPage  = '(Enable Liked Songs section on Artist page",default:)(!1)', '$1true' 
-                BlockUsers       = '(Enable block users feature in clientX",default:)(!1)', '$1true' 
-                Quicksilver      = '(Enables quicksilver in-app messaging modal",default:)(!0)', '$1false' 
-                IgnorInRec       = '(Enable Ignore In Recommendations for desktop and web",default:)(!1)', '$1true'
-                Prod             = '(Enable Playlist Permissions flows for Prod",default:)(!1)', '$1true'
-                ShowingBalloons  = '(Enable showing balloons on album release date anniversaries",default:)(!1)', '$1true'
-                EnhanceLiked     = '(Enable Enhance Liked Songs UI and functionality",default:)(!1)', '$1true'
-                EnhancePlaylist  = '(Enable Enhance Playlist UI and functionality for end-users",default:)(!1)', '$1true' 
-                DisographyArtist = '(Enable a condensed disography shelf on artist pages",default:)(!1)', '$1true' 
-                LyricsMatch      = '(Enable Lyrics match labels in search results",default:)(!1)', '$1true'  
-                Equalizer        = '(Enable audio equalizer for Desktop and Web Player",default:)(!1)', '$1true' 
-                DevicePickerOld  = '(Enable showing a new and improved device picker UI",default:)(!.)', '$1false'
-                NewHome          = '(Enable the new home structure and navigation",values:.,default:)(..DISABLED)', '$1true'
-                MadeForYou       = '(Show "Made For You" entry point in the left sidebar.,default:)(!1)', '$1true'
-                ClearCache       = '(Enable option in settings to clear all downloads",default:)(!1)', '$1true'
-                CarouselsonHome  = '(Use carousels on Home",default:)(!1)', '$1true'
-                LeftSidebar      = '(Enable Your Library X view of the left sidebar",default:)(!1)', '$1true'
-                LyricsEnabled    = '(With this enabled, clients will check whether tracks have lyrics available",default:)(!1)', '$1true' 
-                PlaylistCreation = '(Enables new playlist creation flow in Web Player and DesktopX",default:)(!1)', '$1true'
-                SearchBox        = '(Adds a search box so users are able to filter playlists when trying to add songs to a playlist using the contextmenu",default:)(!1)', '$1true'
-                # "Create similar playlist" menu is activated for someone else's playlists
-                SimilarPlaylist  = ',(.\.isOwnedBySelf&&)((\(.{0,11}\)|..createElement)\(.{1,3}Fragment,.+?{(uri:.|spec:.),(uri:.|spec:.).+?contextmenu.create-similar-playlist"\)}\),)' , ',$2$1'
-            }
-            $ofline = Check_verison_clients -param2 "offline"
-            if ($enhance_like_off) { $exp_features.Remove('EnhanceLiked') }
-            if ($enhance_playlist_off) { $exp_features.Remove('EnhancePlaylist') }
-            if ($new_artist_pages_off) { $exp_features.Remove('DisographyArtist') }
-            if ($new_lyrics_off) { $exp_features.Remove('LyricsMatch') }
-            if ($equalizer_off) { $exp_features.Remove('Equalizer') }
-            if (!($device_picker_old)) { $exp_features.Remove('DevicePickerOld') }
-            if ($made_for_you_off -or $ofline -ge "1.1.96.783") { $exp_features.Remove('MadeForYou') }
+            $rem = $webjson.exp.psobject.properties 
+
+            if ($enhance_like_off) { $rem.remove('enhanceliked') }
+            if ($enhance_playlist_off) { $rem.remove('enhanceplaylist') }
+            if ($new_artist_pages_off) { $rem.remove('disographyartist') }
+            if ($new_lyrics_off) { $rem.remove('lyricsmatch') }
+            if ($equalizer_off) { $rem.remove('equalizer') }
+            if (!($device_picker_old) -or $ofline -ge "1.1.98.683") { $rem.remove('devicepickerold') }
+            if ($made_for_you_off -or $ofline -ge "1.1.96.783") { $rem.remove('madeforyou') }
+            if ($ofline -lt "1.1.98.683") { $rem.remove('rightsidebar') }
             if ($exp_standart) {
-                $exp_features.Remove('EnhanceLiked'), $exp_features.Remove('EnhancePlaylist'), 
-                $exp_features.Remove('DisographyArtist'), $exp_features.Remove('LyricsMatch'), 
-                $exp_features.Remove('Equalizer'), $exp_features.Remove('DevicePicker'), 
-                $exp_features.Remove('NewHome'), $exp_features.Remove('MadeForYou'),
-                $exp_features.Remove('SimilarPlaylist'), $exp_features.Remove('LeftSidebar')
+                $rem.remove('enhanceliked'), $rem.remove('enhanceplaylist'), 
+                $rem.remove('disographyartist'), $rem.remove('lyricsmatch'), 
+                $rem.remove('equalizer'), $rem.remove('devicepicker'), 
+                $rem.remove('newhome'), $rem.remove('madeforyou'),
+                $rem.remove('similarplaylist'), $rem.remove('leftsidebar'), $rem.remove('rightsidebar')
             }
-            if (!($left_sidebar_on) -or $ofline -le "1.1.94.872") { $exp_features.Remove('LeftSidebar') }
-            if ($navalt_off) { $exp_features.Remove('NewHome'), $exp_features.Remove('LeftSidebar') }
+            if (!($left_sidebar_on) -or $ofline -le "1.1.94.872") { $rem.remove('leftsidebar') }
+            if ($navalt_off) { $rem.remove('newhome'), $rem.remove('leftsidebar') }
             if ($ofline -ge "1.1.94.864") {
-                $exp_features.Remove('LyricsEnabled'), $exp_features.Remove('PlaylistCreation'), 
-                $exp_features.Remove('SearchBox')
+                $rem.remove('lyricsenabled'), $rem.remove('playlistcreat'), 
+                $rem.remove('searchbox')
             }
-            if ($ofline -le "1.1.93.896") { $exp_features.Remove('NewHome') }
+            if ($ofline -lt "1.1.90.859" -or $ofline -gt "1.1.95.893") { $rem.remove('devicepicker') }
+            if ($ofline -le "1.1.93.896") { $rem.remove('newhome') }
             $n = ($lang).NoVariable2
-            $contents = $exp_features
+            $contents = $webjson.exp.psobject.properties.name
+            $json = $webjson.exp
             $paramdata = $xpui_js
         }
     }
-    $contents.Keys | Sort-Object | ForEach-Object { 
- 
-        if ($paramdata -match $contents.$PSItem[0]) { 
-            $paramdata = $paramdata -replace $contents.$PSItem[0], $contents.$PSItem[1] 
-        }
-        else { 
-            if (!($paramname -eq "RuTranslate") -or $err_ru) {
 
-                Write-Host ($lang).NoVariable"" -ForegroundColor red -NoNewline 
-                Write-Host "`$contents.$PSItem"$n
+    if ($paramname -ne "HtmlLicMin" -or $paramname -ne "RuTranslate") {
+
+        $contents | ForEach-Object { 
+        
+            if ($json.$PSItem.match.Count -gt 1) {
+                $count = $json.$PSItem.match.Count - 1
+                $numbers = 0
+                While ($numbers -le $count) {
+            
+                    if ($paramdata -match $json.$PSItem.match[$numbers]) { 
+                        $paramdata = $paramdata -replace $json.$PSItem.match[$numbers], $json.$PSItem.replace[$numbers] 
+                    }
+                    else { 
+                
+                        Write-Host ($lang).NoVariable"" -ForegroundColor red -NoNewline 
+                        Write-Host "`$contents.$PSItem $numbers"$n
+                    }  
+                    $numbers++
+                }
             }
-        }    
+            if ($json.$PSItem.match.Count -eq 1) {
+                if ($paramdata -match $json.$PSItem.match) { 
+                    $paramdata = $paramdata -replace $json.$PSItem.match, $json.$PSItem.replace 
+                }
+                else { 
+                
+                    if (!($paramname -eq "RuTranslate") -or $err_ru) {
+    
+                        Write-Host ($lang).NoVariable"" -ForegroundColor red -NoNewline 
+                        Write-Host "`$contents.$PSItem"$n
+                    }
+                }
+            }    
+        }
+    }
+    if ($paramname -eq "HtmlLicMin" -or $paramname -eq "RuTranslate") {
+        $contents.Keys | Sort-Object | ForEach-Object { 
+ 
+            if ($paramdata -match $contents.$PSItem[0]) { 
+                $paramdata = $paramdata -replace $contents.$PSItem[0], $contents.$PSItem[1] 
+            }
+            else { 
+                if (!($paramname -eq "RuTranslate") -or $err_ru) {
+
+                    Write-Host ($lang).NoVariable"" -ForegroundColor red -NoNewline 
+                    Write-Host "`$contents.$PSItem"$n
+                }
+            }    
+        }
     }
     $paramdata
 }
@@ -1269,16 +1298,32 @@ if (Test-Path $xpui_js_patch) {
 
     # Turn off podcasts
     if ($Podcast_off) { 
-        $file_homev2 = get-item $env:APPDATA\Spotify\Apps\xpui\home-v2.js
+        if ($ofline -ge "1.1.93.896" -and $ofline -le "1.1.97.962") { $js = "home-v2.js" }
+        if ($ofline -le "1.1.92.647" -or $ofline -ge "1.1.98.683") { $js = "xpui.js" }
+        $file_homev2 = get-item $env:APPDATA\Spotify\Apps\xpui\$js
         $reader = New-Object -TypeName System.IO.StreamReader -ArgumentList $file_homev2
-        $xpui_homev2 = $reader.ReadToEnd()
+        $xpui_podcast = $reader.ReadToEnd()
         $reader.Close()
-        $xpui_homev2 = Helper -paramname "OffPodcasts" 
+        $xpui_podcast = Helper -paramname "OffPodcasts" 
         $writer = New-Object System.IO.StreamWriter -ArgumentList $file_homev2
         $writer.BaseStream.SetLength(0)
-        $writer.Write($xpui_homev2)
+        $writer.Write($xpui_podcast)
         $writer.Close()  
     }
+
+    # Static color for lyrics
+    if ($lyrics_stat) {
+        $file_lyrics = get-item $env:APPDATA\Spotify\Apps\xpui\xpui-routes-lyrics.css
+        $reader = New-Object -TypeName System.IO.StreamReader -ArgumentList $file_lyrics
+        $xpui_lyrics = $reader.ReadToEnd()
+        $reader.Close()
+        $xpui_lyrics = Helper -paramname "Lyrics-color" 
+        $writer = New-Object System.IO.StreamWriter -ArgumentList $file_lyrics
+        $writer.BaseStream.SetLength(0)
+        $writer.Write($xpui_lyrics)
+        $writer.Close()  
+    }
+    
 
     # xpui.css
     $file_xpui_css = get-item $env:APPDATA\Spotify\Apps\xpui\xpui.css
@@ -1420,14 +1465,29 @@ If (Test-Path $xpui_spa_patch) {
 
     # Turn off podcasts
     if ($podcast_off) { 
-        $entry_home_v2 = $zip.GetEntry('home-v2.js')
+        if ($ofline -ge "1.1.93.896" -and $ofline -le "1.1.97.962") { $js = 'home-v2.js' }
+        if ($ofline -le "1.1.92.647" -or $ofline -ge "1.1.98.683") { $js = 'xpui.js' }
+        $entry_home_v2 = $zip.GetEntry($js)
         $reader = New-Object System.IO.StreamReader($entry_home_v2.Open())
-        $xpui_homev2 = $reader.ReadToEnd()
+        $xpui_podcast = $reader.ReadToEnd()
         $reader.Close()
-        $xpui_homev2 = Helper -paramname "OffPodcasts" 
+        $xpui_podcast = Helper -paramname "OffPodcasts" 
         $writer = New-Object System.IO.StreamWriter($entry_home_v2.Open())
         $writer.BaseStream.SetLength(0)
-        $writer.Write($xpui_homev2)
+        $writer.Write($xpui_podcast)
+        $writer.Close()
+    }
+
+    # Static color for lyrics
+    if ($lyrics_stat) {
+        $entry_lyrics = $zip.GetEntry('xpui-routes-lyrics.css')
+        $reader = New-Object System.IO.StreamReader($entry_lyrics.Open())
+        $xpui_lyrics = $reader.ReadToEnd()
+        $reader.Close()
+        $xpui_lyrics = Helper -paramname "Lyrics-color" 
+        $writer = New-Object System.IO.StreamWriter($entry_lyrics.Open())
+        $writer.BaseStream.SetLength(0)
+        $writer.Write($xpui_lyrics)
         $writer.Close()
     }
 
