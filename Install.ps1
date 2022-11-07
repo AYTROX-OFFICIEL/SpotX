@@ -1080,6 +1080,15 @@ function Helper($paramname) {
         "ExpFeature" { 
             # Experimental Feature Standart
             $rem = $webjson.exp.psobject.properties 
+            
+            if ( $ofline -le "1.1.96.785") { 
+                $rem.remove('newhome2')
+                $newhome = 'newhome'
+            }
+            if ( $ofline -ge "1.1.97.956") { 
+                $rem.remove('newhome')
+                $newhome = 'newhome2' 
+            }
 
             if ($enhance_like_off) { $rem.remove('enhanceliked') }
             if ($enhance_playlist_off) { $rem.remove('enhanceplaylist') }
@@ -1093,17 +1102,17 @@ function Helper($paramname) {
                 $rem.remove('enhanceliked'), $rem.remove('enhanceplaylist'), 
                 $rem.remove('disographyartist'), $rem.remove('lyricsmatch'), 
                 $rem.remove('equalizer'), $rem.remove('devicepicker'), 
-                $rem.remove('newhome'), $rem.remove('madeforyou'),
+                $rem.remove($newhome), $rem.remove('madeforyou'),
                 $rem.remove('similarplaylist'), $rem.remove('leftsidebar'), $rem.remove('rightsidebar')
             }
             if (!($left_sidebar_on) -or $ofline -le "1.1.94.872") { $rem.remove('leftsidebar') }
-            if ($navalt_off) { $rem.remove('newhome'), $rem.remove('leftsidebar') }
+            if ($navalt_off) { $rem.remove($newhome), $rem.remove('leftsidebar') }
             if ($ofline -ge "1.1.94.864") {
                 $rem.remove('lyricsenabled'), $rem.remove('playlistcreat'), 
                 $rem.remove('searchbox')
             }
             if ($ofline -lt "1.1.90.859" -or $ofline -gt "1.1.95.893") { $rem.remove('devicepicker') }
-            if ($ofline -le "1.1.93.896") { $rem.remove('newhome') }
+            if ($ofline -le "1.1.93.896") { $rem.remove($newhome) }
             $n = ($lang).NoVariable2
             $contents = $webjson.exp.psobject.properties.name
             $json = $webjson.exp
