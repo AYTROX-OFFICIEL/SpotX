@@ -32,7 +32,7 @@
     DownSpoti2      = "Mohon ditunggu..."
     PodcatsOff      = "Podcast mati"
     PodcastsOn      = "Podcast hidup"
-    PodcatsSelect   = "Apakah anda ingin menonaktifkan podcast dari halaman utama? [Y/N]"
+    PodcatsSelect   = "Apakah anda ingin menghilangkan podcast, episode, dan buku audio dari halaman utama?"
     DowngradeNote   = "Disarankan untuk memblokir karena ada penurunan versi Spotify"
     UpdBlock        = "Pembaruan Spotify diblokir"
     UpdUnblock      = "Pembaruan Spotify tidak diblokir"
@@ -42,12 +42,6 @@
     CacheSelect     = "Ingin mengatur pembersihan cache otomatis? [Y/N]"
     CacheDays       = "Cache yang lebih lama: XX hari untuk dibersihkan "
     CacheDays2      = "Masukkan jumlah hari dari 1 hingga 100"
-    NoVariable      = "Tidak menemukan variabel"
-    NoVariable2     = "di xpui.js"
-    NoVariable3     = "di licenses.html"
-    NoVariable4     = "di html"
-    NoVariable5     = "di home-v2.js"
-    NoVariable6     = "di xpui-desktop-modals.js"
     ModSpoti        = "Menambal Spotify..."
     Error           = "Kesalahan"
     FileLocBroken   = "Lokasi file Spotify rusak, hapus instalan klien dan jalankan skrip lagi"
@@ -64,5 +58,4 @@
     HostBak         = "Mencadangkan host.bak..."
     HostDel         = "Mencoba menghapus URL yang tidak diinginkan dari file host asli..."
     HostError       = "Terjadi kesalahan saat mengedit file host, mengeditnya secara manual, atau menjalankan skrip sebagai administrator"
-    
 }
