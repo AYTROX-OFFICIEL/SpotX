@@ -298,7 +298,11 @@ $langCode = Format-LanguageCode -LanguageCode $Language
 $lang = Set-ScriptLanguageStrings -LanguageCode $langCode
 
 # Set variable 'ru'.
-if ($langCode -eq 'ru') { $ru = $true }
+if ($langCode -eq 'ru') { 
+    $ru = $true
+    $urlru = "https://raw.githubusercontent.com/AYTROX-OFFICIEL/SpotX/main/scripts/Augmented%20translation/ru.json"
+    $webjsonru = (Invoke-WebRequest -UseBasicParsing -Uri $urlru).Content | ConvertFrom-Json
+}
 # Set variable 'add translation line'.
 if ($langCode -match '^(it|tr|ka|pl|es|fr|hi|pt|id|vi|ro|de|hu|zh)') { $line = $true }
 
@@ -907,32 +911,70 @@ if ($exp_spotify) { Write-Host ($lang).ExpSpotify`n }
 $url = "https://raw.githubusercontent.com/AYTROX-OFFICIEL/SpotX/main/scripts/patches.json"
 $webjson = (Invoke-WebRequest -UseBasicParsing -Uri $url).Content | ConvertFrom-Json
 $ofline = Check_verison_clients -param2 "offline"
+
 function Helper($paramname) {
 
     switch ( $paramname ) {
         "HtmlLicMin" { 
             # licenses.html minification
-            $html_lic_min = @{
-                HtmlLicMin1 = '<li><a href="#6eef7">zlib<\/a><\/li>\n(.|\n)*<\/p><!-- END CONTAINER DEPS LICENSES -->(<\/div>)', '$2'
-                HtmlLicMin2 = '	', ''
-                HtmlLicMin3 = '  ', ''
-                HtmlLicMin4 = '(?m)(^\s*\r?\n)', ''
-                HtmlLicMin5 = '\r?\n(?!\(1|\d)', ''
-            }
-            $n = ($lang).NoVariable3
-            $contents = $html_lic_min
+            $name = "patches.json.others."
+            $n = "licenses.html"
+            $contents = "htmlmin"
+            $json = $webjson.others
             $paramdata = $xpuiContents_html
+        }
+        "HtmlBlank" { 
+            # htmlBlank minification
+            $name = "patches.json.others."
+            $n = "blank.html"
+            $contents = "blank.html"
+            $json = $webjson.others
+            $paramdata = $xpuiContents_html_blank
+        }
+        "MinJs" { 
+            # Minification of all *.js
+            $contents = "minjs"
+            $json = $webjson.others
+            $paramdata = $xpuiContents_js
+        }
+        "MinJson" { 
+            # Minification of all *.json
+            $contents = "minjson"
+            $json = $webjson.others
+            $paramdata = $xpuiContents_json
+        }
+        "RemovertlCssmin" { 
+            # Remove RTL and minification of all *.css
+            $contents = "removertl-cssmin"
+            $json = $webjson.others
+            $paramdata = $xpuiContents_css
+        }
+        "DisableSentry" { 
+            # Disable Sentry (vendor~xpui.js)
+            $name = "patches.json.others."
+            $n = "vendor~xpui.js"
+            $contents = "disablesentry"
+            $json = $webjson.others
+            $paramdata = $xpuiContents_vendor
+        }
+        "DisabledLog" { 
+            # Disabled logging
+            $name = "patches.json.others."
+            $n = "xpui.js"
+            $contents = "disablelog"
+            $json = $webjson.others
+            $paramdata = $xpui_js
         }
         "Lyrics-color" { 
             # Static color for lyrics (xpui-routes-lyrics.css)
-
             $webjson.others.lyricscolor.replace[0] = '$1' + $webjson.others.lyricscolor.theme.$lyrics_stat.pasttext 
             $webjson.others.lyricscolor.replace[1] = '$1' + $webjson.others.lyricscolor.theme.$lyrics_stat.current 
             $webjson.others.lyricscolor.replace[2] = '$1' + $webjson.others.lyricscolor.theme.$lyrics_stat.next 
             $webjson.others.lyricscolor.replace[3] = '$1' + $webjson.others.lyricscolor.theme.$lyrics_stat.hover 
             $webjson.others.lyricscolor.replace[4] = $webjson.others.lyricscolor.theme.$lyrics_stat.background 
             $webjson.others.lyricscolor.replace[5] = '$1' + $webjson.others.lyricscolor.theme.$lyrics_stat.maxmatch 
-
+            $name = "patches.json.others."
+            $n = "xpui-routes-lyrics.css"
             $contents = "lyricscolor"
             $json = $webjson.others
             $paramdata = $xpui_lyrics
@@ -940,147 +982,54 @@ function Helper($paramname) {
         }
         "Discriptions" {  
             # Add discriptions (xpui-desktop-modals.js)
-            $n = ($lang).NoVariable6
+            $name = "patches.json.others."
+            $n = "xpui-desktop-modals.js"
             $contents = "discriptions"
             $json = $webjson.others
             $paramdata = $xpui_desktop_modals
 
         }
         "OffadsonFullscreen" { 
-           
+            # Full screen mode activation and removing "Upgrade to premium" menu, upgrade button, disabling a playlist sponsor
             if ($bts) { $webjson.free.psobject.properties.remove('bilboard'), $webjson.free.psobject.properties.remove('audioads') }
-
-            $webjson.free.psobject.properties.remove('submenudownload'), $webjson.free.psobject.properties.remove('veryhighstream'), $webjson.free.psobject.properties.remove('downloadicon')
-            
             if ($ofline -ge "1.1.98.683") { $webjson.free.psobject.properties.remove('connectold') }
-
-            $n = ($lang).NoVariable2
+            $name = "patches.json.free."
+            $n = "xpui.js"
             $contents = $webjson.free.psobject.properties.name
             $json = $webjson.free
             $paramdata = $xpui_js
         }
         "OffPodcasts" {  
             # Turn off podcasts
-            $n = ($lang).NoVariable5
+            $n = $js
             if ($ofline -le "1.1.92.647") { $podcats = "podcastsoff" }
-            if ($ofline -le "1.1.96.785" -and $ofline -ge "1.1.93.896") { $podcats = "podcastsoff2" }
+            if ($ofline -ge "1.1.93.896" -and $ofline -le "1.1.96.785") { $podcats = "podcastsoff2" }
             if ($ofline -ge "1.1.97.952") { $podcats = "podcastsoff3" }
+            $name = "patches.json.others."
             $contents = $podcats
             $json = $webjson.others
             $paramdata = $xpui_podcast
         }
         "OffRujs" { 
             # Remove all languages except En and Ru from xpui.js
-            $n = ($lang).NoVariable2
+            $name = "patches.json.others."
+            $n = "xpui.js"
             $contents = "offrujs"
             $json = $webjson.others
             $paramdata = $xpui_js
         }
         "RuTranslate" { 
             # Additional translation of some words for the Russian language
-            $ru_translate = @{
-                EnhancePlaylist     = '"To Enhance this playlist, you.ll need to go online."', '"Чтобы улучшить этот плейлист, вам нужно подключиться к интернету."'
-                ConfirmAge          = '"Confirm your age"', '"Подтвердите свой возраст"' 
-                Premium             = '"%price%\/month after. Terms and conditions apply. One month free not available for users who have already tried Premium."', '"%price%/месяц спустя. Принять условия. Один месяц бесплатно, недоступно для пользователей, которые уже попробовали Premium."'
-                AdFreeMusic         = '"Enjoy ad-free music listening, offline listening, and more. Cancel anytime."', '"Наслаждайтесь прослушиванием музыки без рекламы, прослушиванием в офлайн режиме и многим другим. Отменить можно в любое время."'
-                AddPlaylist         = '"Add to another playlist"', '"Добавить в другой плейлист"' 
-                OfflineStorage      = '"Offline storage location"', '"Хранилище скачанных треков"' 
-                ChangeLocation      = '"Change location"', '"Изменить место"' 
-                Linebreaks          = '"Line breaks aren.t supported in the description."', '"В описании не поддерживаются разрывы строк."' 
-                PressSave           = '"Press save to keep changes you.ve made."', '"Нажмите «Сохранить», чтобы сохранить внесенные изменения."' 
-                NoInternet          = '"No internet connection found. Changes to description and image will not be saved."', '"Подключение к интернету не найдено. Изменения в описании и изображении не будут сохранены."' 
-                ImageSmall          = '"Image too small. Images must be at least [{]0[}]x[{]1[}]."', '"Изображение слишком маленькое. Изображения должны быть не менее {0}x{1}."' 
-                FailedUpload        = '"Failed to upload image. Please try again."', '"Не удалось загрузить изображение. Пожалуйста, попробуйте снова."' 
-                Description         = '"Description"', '"Описание"' 
-                ChangePhoto         = '"Change photo"', '"Сменить изображение"' 
-                RemovePhoto         = '"Remove photo"', '"Удалить изображение"' 
-                Name                = '"Name"', '"Имя"' 
-                ChangeSpeed         = '"Change speed"', '"Изменение скорости"' 
-                Years19             = '"You need to be at least 19 years old to listen to explicit content marked with"', '"Вам должно быть не менее 19 лет, чтобы слушать непристойный контент, помеченный значком"' 
-                AddPlaylist2        = '"Add to this playlist"', '"Добавить в этот плейлист"'
-                NoConnect           = '"Couldn.t connect to Spotify."', '"Не удалось подключиться к Spotify."' 
-                Reconnecting        = '"Reconnecting..."', '"Повторное подключение..."' 
-                NoConnection        = '"No connection"', '"Нет соединения"' 
-                CharacterCounter    = '"Character counter"', '"Счетчик символов"' 
-                Lightsaber          = '"Toggle lightsaber hilt. Current is [{]0[}]."', '"Переключить рукоять светового меча. Текущий {0}."' 
-                SongAvailable       = '"Song not available"', '"Песня недоступна"' 
-                HiFi                = '"The song you.re trying to listen to is not available in HiFi at this time."', '"Песня, которую вы пытаетесь прослушать, в настоящее время недоступна в HiFi."' 
-                Quality             = '"Current audio quality:"', '"Текущее качество звука:"' 
-                Network             = '"Network connection"', '"Подключение к сети"' 
-                Good                = '"Good"', '"Хорошее"' 
-                Poor                = '"Poor"', '"Плохое"' 
-                Yes                 = '"Yes"', '"Да"' 
-                No                  = '"No"', '"Нет"' 
-                Location            = '"Your Location"', '"Ваше местоположение"'
-                NetworkConnection   = '"Network connection failed while playing this content."', '"Сбой сетевого подключения при воспроизведении этого контента."'
-                ContentLocation     = '"We.re not able to play this content in your current location."', '"Мы не можем воспроизвести этот контент в вашем текущем местоположении."'
-                ContentUnavailable  = '"This content is unavailable. Try another\?"', '"Этот контент недоступен. Попробуете другой?"'
-                NoContent           = '"Sorry, we.re not able to play this content."', '"К сожалению, мы не можем воспроизвести этот контент."'
-                NoContent2          = '"Hmm... we can.t seem to play this content. Try installing the latest version of Spotify."', '"Хм... похоже, мы не можем воспроизвести этот контент. Попробуйте установить последнюю версию Spotify."'
-                NoContent3          = '"Please upgrade Spotify to play this content."', '"Пожалуйста, обновите Spotify, чтобы воспроизвести этот контент."'
-                NoContent4          = '"This content cannot be played on your operating system version."', '"Этот контент нельзя воспроизвести в вашей версии операционной системы."'
-                DevLang             = '"Override certain user attributes to test regionalized content programming. The overrides are only active in this app."', '"Переопределите определенные атрибуты пользователя, чтобы протестировать региональное программирование контента. Переопределения активны только в этом приложении."'
-                AlbumRelease        = '"...name... was released this week!"', '"\"%name%\" был выпущен на этой неделе!"'
-                AlbumReleaseOne     = '"one": "\\"%name%\\" was released %years% year ago this week!"', '"one": "\"%name%\" был выпущен %years% год назад на этой неделе!"'
-                AlbumReleaseFew     = '"few": "\\"%name%\\" was released %years% years ago this week!"', '"few": "\"%name%\" был выпущен %years% года назад на этой неделе!"'
-                AlbumReleaseMany    = '"many": "\\"%name%\\" was released %years% years ago this week!"', '"many": "\"%name%\" был выпущен %years% лет назад на этой неделе!"'
-                AlbumReleaseOther   = '"other": "\\"%name%\\" was released %years% years ago this week!"', '"other": "\"%name%\" был выпущен %years% года назад на этой неделе!"'
-                Speed               = '"Speed [{]0[}]×"', '"Скорость {0}×"'                            
-                Confidential        = '"This is a highly confidential test. Do not share details of this test or any song you create outside of Spotify."', '"Это очень конфиденциальный тест. Не делитесь подробностями этого теста или какой-либо песни, которую вы создаете, за пределами Spotify."'          
-                StartGroupSession   = '"How to start a Group Session"', '"Как начать групповую сессию"'
-                LearnMore           = '"Learn more"', '"Узнать больше"'
-                Author              = '"Author"', '"Автор"'
-                Creator             = '"Creator"', '"Создатель"'
-                CustomOrder         = '"Custom order"', '"Особая"'
-                Alphabetical        = '"Alphabetical"', '"Алфавитная"'
-                RecentlyAdded       = '"Recently added"', '"Недавно добавленные"'
-                RecentlyPlayed      = '"Recently played"', '"Недавно проигранные"'
-                MostRecent          = '"Most recent"', '"Самые последние"'
-                RecentlyUpdated     = '"Recently updated"', '"Недавно обновленные"'
-                MostRelevant        = '"Most relevant"', '"Наиболее актуальные"'
-                Albums              = '"Albums",', '"Альбомы",'
-                Artists             = '"Artists",', '"Артисты",'
-                Playlists           = '"Playlists",', '"Плейлисты",'
-                PodcastsShows       = '"Podcasts . Shows",', '"Подкасты и Шоу",'
-                Audiobooks          = '"Audiobooks",', '"Аудиокниги",'
-                Downloaded          = '"Downloaded"', '"Скачано"'
-                ByYou               = '"By you"', '"Ваши"'
-                Unplayed            = '"Unplayed"', '"Невоспроизведенное"'
-                InProgress          = '"In progress"', '"В процессе"'
-                LikedSongs          = '"Liked Songs"', '"Понравившиеся песни"'
-                YourEpisodes        = '"Your Episodes"', '"Ваши эпизоды"'
-                LocalFiles          = '"Local Files"', '"Локальные файлы"'
-                EnhancePrem         = '"Enhance your playlists with Premium"', '"Улучшите свои плейлисты с Premium"'
-                EnhancePrem2        = '"Instantly add personalized tracks that match this playlist.s unique sound"', '"Мгновенно добавляйте персонализированные треки, соответствующие уникальному звучанию этого плейлиста"'
-                EnhancePrem3        = '"Enhance %playlist%"', '"Улучшить %playlist%"'
-                EnhancePrem4        = '"Enhanced"', '"Улучшенный"'
-                EnhancePrem5        = '"Enhance"', '"Улучшить"'
-                HigherQualityAudio  = '"Higher Quality Audio"', '"Более Высокое Качество Звука"'
-                HigherQualityAudio2 = '"Crisp highs & booming lows, a few of the things you.ll hear with high-quality audio"', '"Четкие высокие частоты и гулкие низкие частоты — вот некоторые вещи, которые вы услышите благодаря высококачественному звуку."'
-                Enabled             = '"Enabled"', '"Включено"'
-                ChangeSettings      = '"Change settings"', '"Изменить настройки"'
-                ListenTogether      = '"Listen together, from anywhere"', '"Слушайте вместе, откуда угодно"'
-                InviteFriends       = '"Invite your friends to join you remotely in controlling what plays"', '"Пригласите своих друзей присоединиться к вам удаленно, чтобы контролировать то, что играет"'
-                PublishSongs        = '"Create and publish songs right on Spotify. Choose a song and genre, record your vocals, then edit the song to make it yours."', '"Создавайте и публикуйте песни прямо на Spotify. Выберите песню и жанр, запишите свой вокал, а затем отредактируйте песню, чтобы сделать ее своей."'
-                GroupSession        = '"Group sessions let you and your friends listen to music and podcasts together, from anywhere."', '"Групповые сеансы позволяют вам и вашим друзьям вместе слушать музыку и подкасты из любого места."'
-                GroupSession2       = '"To start your group session:"', '"Чтобы начать групповой сеанс:"'
-                PhoneTablet         = '"Open Spotify on a phone or tablet."', '"Откройте Spotify на телефоне или планшете."'
-                PickSongPodcast     = '"Pick a song or podcast and play it."', '"Выберите песню или подкаст и воспроизведите"'
-                TapIcon             = '"Tap .icon.."', '"Нажмите {icon}."'
-                TapStart            = '"Tap ...Start a remote group session....."', '"Нажмите <b>Начать сеанс удаленной группы</b>."'
-                TapInvite           = '"Tap ...Invite friends....."', '"Нажмите <b>Пригласить друзей</b>."'
-                ShareFriends        = '"Share with your friends."', '"Поделись с друзьями."'
-                GroupSession3       = '"You can only start or join a group session using a phone or tablet."', '"Вы можете начать или присоединиться к групповому сеансу только с помощью телефона или планшета."'
-            }
-            $n = ($lang).NoVariable7
-            $contents = $ru_translate
+            $n = "ru.json"
+            $contents = $webjsonru.psobject.properties.name
+            $json = $webjsonru
             $paramdata = $xpui_ru
         }
 
         "ExpFeature" { 
             # Experimental Feature Standart
             $rem = $webjson.exp.psobject.properties 
-            
+
             if ( $ofline -le "1.1.96.785") { 
                 $rem.remove('newhome2')
                 $newhome = 'newhome'
@@ -1113,62 +1062,50 @@ function Helper($paramname) {
             }
             if ($ofline -lt "1.1.90.859" -or $ofline -gt "1.1.95.893") { $rem.remove('devicepicker') }
             if ($ofline -le "1.1.93.896") { $rem.remove($newhome) }
-            $n = ($lang).NoVariable2
+            $name = "patches.json.exp."
+            $n = "xpui.js"
             $contents = $webjson.exp.psobject.properties.name
             $json = $webjson.exp
             $paramdata = $xpui_js
         }
     }
-
-    if ($paramname -ne "HtmlLicMin" -or $paramname -ne "RuTranslate") {
-
-        $contents | ForEach-Object { 
+    $novariable = "Didn't find variable "
+    $contents | ForEach-Object { 
         
-            if ($json.$PSItem.match.Count -gt 1) {
-                $count = $json.$PSItem.match.Count - 1
-                $numbers = 0
-                While ($numbers -le $count) {
+        if ($json.$PSItem.match.Count -gt 1) {
+            $count = $json.$PSItem.match.Count - 1
+            $numbers = 0
+            While ($numbers -le $count) {
             
-                    if ($paramdata -match $json.$PSItem.match[$numbers]) { 
-                        $paramdata = $paramdata -replace $json.$PSItem.match[$numbers], $json.$PSItem.replace[$numbers] 
-                    }
-                    else { 
-                
-                        Write-Host ($lang).NoVariable"" -ForegroundColor red -NoNewline 
-                        Write-Host "`$contents.$PSItem $numbers"$n
-                    }  
-                    $numbers++
-                }
-            }
-            if ($json.$PSItem.match.Count -eq 1) {
-                if ($paramdata -match $json.$PSItem.match) { 
-                    $paramdata = $paramdata -replace $json.$PSItem.match, $json.$PSItem.replace 
+                if ($paramdata -match $json.$PSItem.match[$numbers]) { 
+                    $paramdata = $paramdata -replace $json.$PSItem.match[$numbers], $json.$PSItem.replace[$numbers] 
                 }
                 else { 
-                
-                    if (!($paramname -eq "RuTranslate") -or $err_ru) {
+
+                    $notlog = "MinJs", "MinJson", "Removertl", "RemovertlCssmin"
+                    if ($paramname -notin $notlog) {
     
-                        Write-Host ($lang).NoVariable"" -ForegroundColor red -NoNewline 
-                        Write-Host "`$contents.$PSItem"$n
+                        Write-Host $novariable -ForegroundColor red -NoNewline 
+                        Write-Host "$name$PSItem $numbers"'in'$n
                     }
-                }
-            }    
+                }  
+                $numbers++
+            }
         }
-    }
-    if ($paramname -eq "HtmlLicMin" -or $paramname -eq "RuTranslate") {
-        $contents.Keys | Sort-Object | ForEach-Object { 
- 
-            if ($paramdata -match $contents.$PSItem[0]) { 
-                $paramdata = $paramdata -replace $contents.$PSItem[0], $contents.$PSItem[1] 
+        if ($json.$PSItem.match.Count -eq 1) {
+            if ($paramdata -match $json.$PSItem.match) { 
+                $paramdata = $paramdata -replace $json.$PSItem.match, $json.$PSItem.replace 
             }
             else { 
+
                 if (!($paramname -eq "RuTranslate") -or $err_ru) {
 
-                    Write-Host ($lang).NoVariable"" -ForegroundColor red -NoNewline 
-                    Write-Host "`$contents.$PSItem"$n
+    
+                    Write-Host $novariable -ForegroundColor red -NoNewline 
+                    Write-Host "$name$PSItem"'in'$n
                 }
-            }    
-        }
+            }
+        }    
     }
     $paramdata
 }
@@ -1280,7 +1217,7 @@ if (Test-Path $xpui_js_patch) {
     $writer = New-Object System.IO.StreamWriter -ArgumentList $xpui_js_patch
     $writer.BaseStream.SetLength(0)
     $writer.Write($xpui_js)
-    $writer.Write([System.Environment]::NewLine + '// Patched by SpotX') 
+    $writer.Write([System.Environment]::NewLine + $webjson.others.byspotx.add) 
     $writer.Close()  
 
     # Russian additional translation
@@ -1347,20 +1284,20 @@ if (Test-Path $xpui_js_patch) {
 
     if (!($premium)) {
         # Hide download icon on different pages
-        $writer.Write([System.Environment]::NewLine + ' .BKsbV2Xl786X9a09XROH{display:none}')
+        $writer.Write([System.Environment]::NewLine + $webjson.others.downloadicon.add)
         # Hide submenu item "download"
-        $writer.Write([System.Environment]::NewLine + ' button.wC9sIed7pfp47wZbmU6m.pzkhLqffqF_4hucrVVQA{display:none}')
+        $writer.Write([System.Environment]::NewLine + $webjson.others.submenudownload.add)
         # Hide very high quality streaming
-        $writer.Write([System.Environment]::NewLine + ' #desktop\.settings\.streamingQuality>option:nth-child(5) {display:none}')
+        $writer.Write([System.Environment]::NewLine + $webjson.others.veryhighstream.add)
     }
     # New UI fix
     if (!($navalt_off)) {
-        $writer.Write([System.Environment]::NewLine + ' .nav-alt .Root__top-container {background: #00000085;gap: 6px;padding: 8px;}')
-        $writer.Write([System.Environment]::NewLine + ' .Root__fixed-top-bar {background-color: #00000000}')
+        $writer.Write([System.Environment]::NewLine + $webjson.others.navaltfix.add[0])
+        $writer.Write([System.Environment]::NewLine + $webjson.others.navaltfix.add[1])
     }
     # Hide Collaborators icon
     if (!($hide_col_icon_off) -and !($exp_spotify)) {
-        $writer.Write([System.Environment]::NewLine + ' .X1lXSiVj0pzhQCUo_72A{display:none}')
+        $writer.Write([System.Environment]::NewLine + $webjson.others.collaboraticon.add)
     }
     $writer.Close()
 
@@ -1450,9 +1387,9 @@ If (Test-Path $xpui_spa_patch) {
     $reader = New-Object System.IO.StreamReader($entry_xpui.Open())
     $xpui_js = $reader.ReadToEnd()
     $reader.Close()
-    
+
+    # Full screen mode activation and removing "Upgrade to premium" menu, upgrade button, disabling a playlist sponsor
     if (!($premium)) {
-        # Full screen mode activation and removing "Upgrade to premium" menu, upgrade button, disabling a playlist sponsor
         $xpui_js = Helper -paramname "OffadsonFullscreen"
     }
 
@@ -1463,12 +1400,12 @@ If (Test-Path $xpui_spa_patch) {
     if ($ru) { $xpui_js = Helper -paramname "OffRujs" }
 
     # Disabled logging
-    $xpui_js = $xpui_js -replace "sp://logging/v3/\w+", ""
+    $xpui_js = Helper -paramname "DisabledLog"
    
     $writer = New-Object System.IO.StreamWriter($entry_xpui.Open())
     $writer.BaseStream.SetLength(0)
     $writer.Write($xpui_js)
-    $writer.Write([System.Environment]::NewLine + '// Patched by SpotX') 
+    $writer.Write([System.Environment]::NewLine + $webjson.others.byspotx.add) 
     $writer.Close()
 
 
@@ -1516,9 +1453,7 @@ If (Test-Path $xpui_spa_patch) {
     $reader = New-Object System.IO.StreamReader($entry_vendor_xpui.Open())
     $xpuiContents_vendor = $reader.ReadToEnd()
     $reader.Close()
-
-    $xpuiContents_vendor = $xpuiContents_vendor `
-        -replace "(?:prototype\.)?bindClient(?:=function)?\(\w+\)\{", '${0}return;'
+    $xpuiContents_vendor = Helper -paramname "DisableSentry"
     $writer = New-Object System.IO.StreamWriter($entry_vendor_xpui.Open())
     $writer.BaseStream.SetLength(0)
     $writer.Write($xpuiContents_vendor)
@@ -1529,10 +1464,7 @@ If (Test-Path $xpui_spa_patch) {
         $readerjs = New-Object System.IO.StreamReader($_.Open())
         $xpuiContents_js = $readerjs.ReadToEnd()
         $readerjs.Close()
-
-        $xpuiContents_js = $xpuiContents_js `
-            -replace "[/][/][#] sourceMappingURL=.*[.]map", "" -replace "\r?\n(?!\(1|\d)", ""
-
+        $xpuiContents_js = Helper -paramname "MinJs" 
         $writer = New-Object System.IO.StreamWriter($_.Open())
         $writer.BaseStream.SetLength(0)
         $writer.Write($xpuiContents_js)
@@ -1550,40 +1482,30 @@ If (Test-Path $xpui_spa_patch) {
     $writer.Write($xpuiContents_xpui_css)
     if (!($premium)) {
         # Hide download icon on different pages
-        $writer.Write([System.Environment]::NewLine + ' .BKsbV2Xl786X9a09XROH {display:none}')
+        $writer.Write([System.Environment]::NewLine + $webjson.others.downloadicon.add)
         # Hide submenu item "download"
-        $writer.Write([System.Environment]::NewLine + ' button.wC9sIed7pfp47wZbmU6m.pzkhLqffqF_4hucrVVQA {display:none}')
+        $writer.Write([System.Environment]::NewLine + $webjson.others.submenudownload.add)
         # Hide very high quality streaming
-        $writer.Write([System.Environment]::NewLine + ' #desktop\.settings\.streamingQuality>option:nth-child(5) {display:none}')
+        $writer.Write([System.Environment]::NewLine + $webjson.others.veryhighstream.add)
     }
      
     # New UI fix
     if (!($navalt_off)) {
-        $writer.Write([System.Environment]::NewLine + ' .nav-alt .Root__top-container {background: #00000085;gap: 6px;padding: 8px;}')
-        $writer.Write([System.Environment]::NewLine + ' .Root__fixed-top-bar {background-color: #00000000}')
+        $writer.Write([System.Environment]::NewLine + $webjson.others.navaltfix.add[0])
+        $writer.Write([System.Environment]::NewLine + $webjson.others.navaltfix.add[1])
     }
     # Hide Collaborators icon
     if (!($hide_col_icon_off) -and !($exp_spotify)) {
-        $writer.Write([System.Environment]::NewLine + ' .X1lXSiVj0pzhQCUo_72A{display:none}')
+        $writer.Write([System.Environment]::NewLine + $webjson.others.collaboraticon.add)
     }
     $writer.Close()
 
-    # of all *.Css
+    # Remove RTL and minification of all *.css
     $zip.Entries | Where-Object FullName -like '*.css' | ForEach-Object {
         $readercss = New-Object System.IO.StreamReader($_.Open())
         $xpuiContents_css = $readercss.ReadToEnd()
         $readercss.Close()
-
-        $xpuiContents_css = $xpuiContents_css `
-            <# Remove RTL #>`
-            -replace "}\[dir=ltr\]\s?([.a-zA-Z\d[_]+?,\[dir=ltr\])", '}[dir=str] $1' -replace "}\[dir=ltr\]\s?", "} " -replace "html\[dir=ltr\]", "html" `
-            -replace ",\s?\[dir=rtl\].+?(\{.+?\})", '$1' -replace "[\w\-\.]+\[dir=rtl\].+?\{.+?\}", "" -replace "\}\[lang=ar\].+?\{.+?\}", "}" `
-            -replace "\}\[dir=rtl\].+?\{.+?\}", "}" -replace "\}html\[dir=rtl\].+?\{.+?\}", "}" -replace "\}html\[lang=ar\].+?\{.+?\}", "}" `
-            -replace "\[lang=ar\].+?\{.+?\}", "" -replace "html\[dir=rtl\].+?\{.+?\}", "" -replace "html\[lang=ar\].+?\{.+?\}", "" `
-            -replace "\[dir=rtl\].+?\{.+?\}", "" -replace "\[dir=str\]", "[dir=ltr]" `
-            <# Css minification #>`
-            -replace "[/]\*([^*]|[\r\n]|(\*([^/]|[\r\n])))*\*[/]", "" -replace "[/][/]#\s.*", "" -replace "\r?\n(?!\(1|\d)", ""
-    
+        $xpuiContents_css = Helper -paramname "RemovertlCssmin"
         $writer = New-Object System.IO.StreamWriter($_.Open())
         $writer.BaseStream.SetLength(0)
         $writer.Write($xpuiContents_css)
@@ -1607,15 +1529,7 @@ If (Test-Path $xpui_spa_patch) {
     $reader = New-Object System.IO.StreamReader($entry_blank_html.Open())
     $xpuiContents_html_blank = $reader.ReadToEnd()
     $reader.Close()
-
-    $html_min1 = "  "
-    $html_min2 = "(?m)(^\s*\r?\n)"
-    $html_min3 = "\r?\n(?!\(1|\d)"
-    if ($xpuiContents_html_blank -match $html_min1) { $xpuiContents_html_blank = $xpuiContents_html_blank -replace $html_min1, "" } else { Write-Host ($lang).NoVariable"" -ForegroundColor red -NoNewline; Write-Host "`$html_min1 "($lang).NoVariable4 }
-    if ($xpuiContents_html_blank -match $html_min2) { $xpuiContents_html_blank = $xpuiContents_html_blank -replace $html_min2, "" } else { Write-Host ($lang).NoVariable"" -ForegroundColor red -NoNewline; Write-Host "`$html_min2 "($lang).NoVariable4 }
-    if ($xpuiContents_html_blank -match $html_min3) { $xpuiContents_html_blank = $xpuiContents_html_blank -replace $html_min3, "" } else { Write-Host ($lang).NoVariable"" -ForegroundColor red -NoNewline; Write-Host "`$html_min3 "($lang).NoVariable4 }
-
-    $xpuiContents_html_blank = $xpuiContents_html_blank
+    $xpuiContents_html_blank = Helper -paramname "HtmlBlank"
     $writer = New-Object System.IO.StreamWriter($entry_blank_html.Open())
     $writer.BaseStream.SetLength(0)
     $writer.Write($xpuiContents_html_blank)
@@ -1636,16 +1550,12 @@ If (Test-Path $xpui_spa_patch) {
             $writer.Close()
         }
     }
-    # Json
+    # Minification of all *.json
     $zip.Entries | Where-Object FullName -like '*.json' | ForEach-Object {
         $readerjson = New-Object System.IO.StreamReader($_.Open())
         $xpuiContents_json = $readerjson.ReadToEnd()
         $readerjson.Close()
-
-        # json minification
-        $xpuiContents_json = $xpuiContents_json `
-            -replace "  ", "" -replace "    ", "" -replace '": ', '":' -replace "\r?\n(?!\(1|\d)", "" 
-
+        $xpuiContents_json = Helper -paramname "MinJson" 
         $writer = New-Object System.IO.StreamWriter($_.Open())
         $writer.BaseStream.SetLength(0)
         $writer.Write($xpuiContents_json)
