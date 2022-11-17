@@ -80,7 +80,7 @@
                 "do": ""
             },
             "match": "((..createElement|children:\\(.{1,7}\\))\\(....,{source:).....get\\(\"about.copyright\",.\\),paragraphClassName:.}\\)",
-            "replace": "$1\"<h3>Plus sur SpotX</h3><img src='https://github.com/fluidicon.png' width='30' height='30'> <a href='https://github.com/AYTROX-OFFICIEL/SpotX'>Github</a><br></br><img src='https://assets-global.website-files.com/6257adef93867e50d84d30e2/62f0a9e560a799075a4e0cea_Discord-Logo-White%20(3).png' width='30' height='30'> <a href='https://dsc.gg/AYTROX'>Discord</a><br></br><a href='https://github.com/AYTROX-OFFICIEL/SpotX/issues/new?assignees=&labels=%E2%9D%8C+bug&template=bug_report.yml'>Create an issue report</a><br> <br/><h4>DISCLAIMER</h4>SpotX est une version modifer de spotify, provided as an evaluation version, you use it at your own risk. SpotX by Amd64Fox and <a href='https://aytrox.wixsite.com/website'>AYTROX</a> © 2022 <h5>Version Stable</h5>1.1.98.691\"})"
+            "replace": "$1\"<h3>Plus sur SpotX</h3><img src='https://github.com/fluidicon.png' width='30' height='30'> <a href='https://github.com/AYTROX-OFFICIEL/SpotX'>Github</a><br></br><img src='https://assets-global.website-files.com/6257adef93867e50d84d30e2/62f0a9e560a799075a4e0cea_Discord-Logo-White%20(3).png' width='30' height='30'> <a href='https://dsc.gg/AYTROX'>Discord</a><br></br><a href='https://github.com/AYTROX-OFFICIEL/SpotX/issues/new?assignees=&labels=%E2%9D%8C+bug&template=bug_report.yml'>Create an issue report</a><br> <br/><h4>DISCLAIMER</h4>SpotX est une version modifer de spotify, provided as an evaluation version, you use it at your own risk. SpotX by Amd64Fox and <a href='https://aytrox.com'>AYTROX</a> © 2022 <h5>Version Stable</h5>1.1.98.691\"})"
         },
         "podcastsoff": {
             "version": {
@@ -172,12 +172,13 @@
                 " .Root__fixed-top-bar {background-color: #00000000}"
             ]
         },
-        "collaboraticon": {
+        "collaboration": {
             "version": {
-                "from": "1.1.83",
+                "from": "1.1.73",
                 "do": ""
             },
-            "add": " .X1lXSiVj0pzhQCUo_72A{display:none}"
+            "match": "(permissionLevel:\"CONTRIBUTOR\".+?return)",
+            "replace": "$1 null;"
         },
         "byspotx": {
             "add": "// Patched by SpotX"
@@ -344,6 +345,24 @@
             },
             "match": ",(.\\.isOwnedBySelf&&)((\\(.{0,11}\\)|..createElement)\\(.{1,3}Fragment,.+?{(uri:.|).+?contextmenu.create-similar-playlist\"\\)}\\),)",
             "replace": ",$2$1"
+        },
+        "copy-playlists": {
+            "version": {
+                "from": "1.1.97.956",
+                "do": ""
+            },
+            "match": [
+                "(,.=.\\(\\).from\\(.\\).toURLPath\\(!0\\);)(await ..add\\(.,)(.)",
+                "(((,\\(.,..jsxs\\)\\(..Fragment.+?,name:..name).+?displayText:(.....get)\\(\"contextmenu.create-similar-playlist\")(.+?}\\)]}\\)))",
+                "(,\\(.,...jsxs\\)\\(...Fragment,{children:\\[(\\(.+?,name:..name)(,displayText:......get)\\(\"contextmenu.create-similar-playlist\".+?}\\)]}\\))",
+                "(.)(=.\\|\\|.....get\\(\"playlist.similar-playlist\"\\))"
+            ],
+            "replace": [
+                "$1var content=JSON.stringify(i); if (content.includes('copy by spotx')){ var as=n.body.request.trackIDs;var asd=as.map((as=>`spotify:track:${as}`))} else { asd=$3};$2asd",
+                "$1$3+' copy by spotx',displayText:$4(\"ewg.copy\")})]})",
+                "$1,$2+' copy by spotx'$3(\"ewg.copy\")})",
+                "dt$2;var content=JSON.stringify(dt);var content=content.replace(/ copy by spotx/gmi, \"\");var content=content.replace(/.(.+)./gmi, \"$$1\");const $1=content"
+            ]
         },
         "likedartist": {
             "version": {
@@ -527,6 +546,14 @@
                 "do": ""
             },
             "match": "(Enable the view on the right sidebar\",default:)(!1)",
+            "replace": "$1true"
+        },
+        "audiobooks": {
+            "version": {
+                "from": "1.1.74",
+                "do": ""
+            },
+            "match": "(Enable Audiobooks feature on ClientX\",default:)(!1)",
             "replace": "$1true"
         }
     }
