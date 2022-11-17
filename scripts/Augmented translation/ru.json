@@ -377,8 +377,8 @@
         "replace": "\"Аудиокнига\""
     },
     "97": {
-        "match": "\"Playlist\"",
-        "replace": "\"Плейлист\""
+        "match": "\"Playlist\",",
+        "replace": "\"Плейлист\","
     },
     "98": {
         "match": "\"Artist\"",
