@@ -80,7 +80,7 @@
                 "do": ""
             },
             "match": "((..createElement|children:\\(.{1,7}\\))\\(....,{source:).....get\\(\"about.copyright\",.\\),paragraphClassName:.}\\)",
-            "replace": "$1\"<h3>Plus sur SpotX</h3><img src='https://github.com/fluidicon.png' width='30' height='30'> <a href='https://github.com/AYTROX-OFFICIEL/SpotX'>Github</a><br></br><img src='https://assets-global.website-files.com/6257adef93867e50d84d30e2/62f0a9e560a799075a4e0cea_Discord-Logo-White%20(3).png' width='30' height='30'> <a href='https://dsc.gg/AYTROX'>Discord</a><br></br><a href='https://github.com/AYTROX-OFFICIEL/SpotX/issues/new?assignees=&labels=%E2%9D%8C+bug&template=bug_report.yml'>Create an issue report</a><br> <br/><h4>DISCLAIMER</h4>SpotX est une version modifer de spotify, provided as an evaluation version, you use it at your own risk. SpotX by Amd64Fox and <a href='https://aytrox.com'>AYTROX</a> © 2022 <h5>Version Stable</h5>1.1.98.691\"})"
+            "replace": "$1\"<h3>Plus sur SpotX</h3><img src='https://github.com/fluidicon.png' width='30' height='30'> <a href='https://github.com/AYTROX-OFFICIEL/SpotX'>Github</a><br></br><img src='https://assets-global.website-files.com/6257adef93867e50d84d30e2/62f0a9e560a799075a4e0cea_Discord-Logo-White%20(3).png' width='30' height='30'> <a href='https://dsc.gg/AYTROX'>Discord</a><br></br><a href='https://github.com/AYTROX-OFFICIEL/SpotX/issues/new?assignees=&labels=%E2%9D%8C+bug&template=bug_report.yml'>Create an issue report</a><br> <br/><h4>DISCLAIMER</h4>SpotX est une version modifer de spotify, provided as an evaluation version, you use it at your own risk. SpotX by Amd64Fox and <a href='https://aytrox.com'>AYTROX</a> © 2022 <h5>Version Stable</h5>1.1.99.871\"})"
         },
         "podcastsoff": {
             "version": {
@@ -146,12 +146,12 @@
                 }
             },
             "match": [
-                "(H2J92dVdr0ykdOX5azL1{color:)var\\(--lyrics-color-active\\);opacity:..",
-                "((TDPh45khCfG51fNwNIiw|E64X_eoy6xsJmDdKKHja){color:)var\\(--lyrics-color-active\\)",
-                "(NHVfxGs2HwmI_fly2JC4{color:)var\\(--lyrics-color-inactive\\)",
-                "(NHVfxGs2HwmI_fly2JC4:hover{color:)var\\(--lyrics-color-active\\)",
+                "((MEjuIn9iTBQbnCqHpkoQ|H2J92dVdr0ykdOX5azL1){color:)var\\(--lyrics-color-(active\\);opacity:\\.{0,1}\\d|passed\\))",
+                "((TDPh45khCfG51fNwNIiw|E64X_eoy6xsJmDdKKHja|arY01KDGhWNgzlAHlhpd){color:)var\\(--lyrics-color-active\\)",
+                "((NHVfxGs2HwmI_fly2JC4|NiCdLCpp3o2z6nBrayOn){color:)var\\(--lyrics-color-inactive\\)",
+                "((NHVfxGs2HwmI_fly2JC4|NiCdLCpp3o2z6nBrayOn):hover{color:)var\\(--lyrics-color-active\\)",
                 "var\\(--lyrics-color-background\\)",
-                "(iq4cgi0YEKr6DGaTtzUj{color:)var\\(--lyrics-color-inactive\\)"
+                "((iq4cgi0YEKr6DGaTtzUj|kGR_hu4tdj9PnUlSPaRL){color:)var\\(--lyrics-color-inactive\\)"
             ],
             "replace": [
                 "",
@@ -346,24 +346,6 @@
             "match": ",(.\\.isOwnedBySelf&&)((\\(.{0,11}\\)|..createElement)\\(.{1,3}Fragment,.+?{(uri:.|).+?contextmenu.create-similar-playlist\"\\)}\\),)",
             "replace": ",$2$1"
         },
-        "copy-playlists": {
-            "version": {
-                "from": "1.1.97.956",
-                "do": ""
-            },
-            "match": [
-                "(,.=.\\(\\).from\\(.\\).toURLPath\\(!0\\);)(await ..add\\(.,)(.)",
-                "(((,\\(.,..jsxs\\)\\(..Fragment.+?,name:..name).+?displayText:(.....get)\\(\"contextmenu.create-similar-playlist\")(.+?}\\)]}\\)))",
-                "(,\\(.,...jsxs\\)\\(...Fragment,{children:\\[(\\(.+?,name:..name)(,displayText:......get)\\(\"contextmenu.create-similar-playlist\".+?}\\)]}\\))",
-                "(.)(=.\\|\\|.....get\\(\"playlist.similar-playlist\"\\))"
-            ],
-            "replace": [
-                "$1var content=JSON.stringify(i); if (content.includes('copy by spotx')){ var as=n.body.request.trackIDs;var asd=as.map((as=>`spotify:track:${as}`))} else { asd=$3};$2asd",
-                "$1$3+' copy by spotx',displayText:$4(\"ewg.copy\")})]})",
-                "$1,$2+' copy by spotx'$3(\"ewg.copy\")})",
-                "dt$2;var content=JSON.stringify(dt);var content=content.replace(/ copy by spotx/gmi, \"\");var content=content.replace(/.(.+)./gmi, \"$$1\");const $1=content"
-            ]
-        },
         "likedartist": {
             "version": {
                 "from": "1.1.70",
@@ -495,7 +477,7 @@
         "clearcache": {
             "version": {
                 "from": "1.1.92",
-                "do": ""
+                "do": "1.1.98"
             },
             "match": "(Enable option in settings to clear all downloads\",default:)(!1)",
             "replace": "$1true"
@@ -548,12 +530,28 @@
             "match": "(Enable the view on the right sidebar\",default:)(!1)",
             "replace": "$1true"
         },
+        "sidebar-fix": {
+            "version": {
+                "from": "1.1.99",
+                "do": ""
+            },
+            "match": "min:320,max:420",
+            "replace": "min:250,max:400"
+        },
         "audiobooks": {
             "version": {
                 "from": "1.1.74",
                 "do": ""
             },
             "match": "(Enable Audiobooks feature on ClientX\",default:)(!1)",
+            "replace": "$1true"
+        },
+        "addingplaylist": {
+            "version": {
+                "from": "1.1.98",
+                "do": ""
+            },
+            "match": "(Enable support for adding a playlist to another playlist\",default:)(!1)",
             "replace": "$1true"
         }
     }
