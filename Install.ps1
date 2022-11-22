@@ -107,7 +107,7 @@ function Format-LanguageCode {
     
     begin {
         $supportLanguages = @(
-            'en', 'ru', 'it', 'tr', 'ka', 'pl', 'es', 'fr', 'hi', 'pt', 'id', 'vi', 'ro', 'de', 'hu', 'zh'
+            'en', 'ru', 'it', 'tr', 'ka', 'pl', 'es', 'fr', 'hi', 'pt', 'id', 'vi', 'ro', 'de', 'hu', 'zh', 'ko'
         )
     }
     
@@ -176,6 +176,10 @@ function Format-LanguageCode {
             }
             '^zh' {
                 $returnCode = 'zh'
+                break
+            }
+            '^ko' {
+                $returnCode = 'ko'
                 break
             }
             Default {
@@ -280,6 +284,10 @@ function Set-ScriptLanguageStrings($LanguageCode) {
             $langStrings = CallLang -clg "zh"
             break
         }
+        'ko' {
+            $langStrings = CallLang -clg "ko"
+            break
+        }
         Default {
             # Default to English if unable to find a match.
             $langStrings = CallLang -clg "en"
@@ -304,7 +312,7 @@ if ($langCode -eq 'ru') {
     $webjsonru = (Invoke-WebRequest -UseBasicParsing -Uri $urlru).Content | ConvertFrom-Json
 }
 # Set variable 'add translation line'.
-if ($langCode -match '^(it|tr|ka|pl|es|fr|hi|pt|id|vi|ro|de|hu|zh)') { $line = $true }
+if ($langCode -match '^(it|tr|ka|pl|es|fr|hi|pt|id|vi|ro|de|hu|zh|ko)') { $line = $true }
 
 # Automatic length of stars
 $au = ($lang).Author.Length + ($lang).Author2.Length
@@ -624,7 +632,7 @@ if ($spotifyInstalled) {
 
     $offline = Check_verison_clients -param2 "offline"
 
-
+    # Old version Spotify
     if ($online -gt $offline) {
         if ($confirm_spoti_recomended_over -or $confirm_spoti_recomended_unistall) {
             Write-Host ($lang).OldV`n
@@ -675,12 +683,12 @@ if ($spotifyInstalled) {
             $downgrading = $true
         }
     }
-
-
+    
+    # Unsupported version Spotify
     if ($online -lt $offline) {
-    
-    
-        try {
+
+        # Submit unsupported version of Spotify to google form for further processing
+        try { 
             $txt = [IO.File]::ReadAllText($spotifyExecutable)
             $regex = "(\d+)\.(\d+)\.(\d+)\.(\d+)(\.g[0-9a-f]{8})"
             $v = $txt | Select-String $regex -AllMatches
@@ -1043,9 +1051,10 @@ function Helper($paramname) {
             # Experimental Feature Standart
             $rem = $webjson.exp.psobject.properties 
 
-            if ( $ofline -le "1.1.96.785") { $rem.remove('newhome2'), $rem.remove('copy-playlists'); $newhome = 'newhome' }
+            if ( $ofline -le "1.1.96.785") { $rem.remove('newhome2'); $newhome = 'newhome' }
             if ( $ofline -ge "1.1.97.956") { $rem.remove('newhome'); $newhome = 'newhome2' }
-
+            if ( $ofline -ge "1.1.99.871") { $rem.remove('clearcache') }
+            if ( $ofline -le "1.1.98.691") { $rem.remove('sidebar-fix') }
             if ($enhance_like_off) { $rem.remove('enhanceliked') }
             if ($enhance_playlist_off) { $rem.remove('enhanceplaylist') }
             if ($new_artist_pages_off) { $rem.remove('disographyartist') }
@@ -1053,7 +1062,7 @@ function Helper($paramname) {
             if ($equalizer_off) { $rem.remove('equalizer') }
             if (!($device_picker_old) -or $ofline -ge "1.1.98.683") { $rem.remove('devicepickerold') }
             if ($made_for_you_off -or $ofline -ge "1.1.96.783") { $rem.remove('madeforyou') }
-            if ($ofline -lt "1.1.98.683") { $rem.remove('rightsidebar') }
+            if ($ofline -lt "1.1.98.683") { $rem.remove('rightsidebar'), $rem.remove('addingplaylist') }
             if ($exp_standart) {
                 $rem.remove('enhanceliked'), $rem.remove('enhanceplaylist'), 
                 $rem.remove('disographyartist'), $rem.remove('lyricsmatch'), 
@@ -1061,7 +1070,7 @@ function Helper($paramname) {
                 $rem.remove($newhome), $rem.remove('madeforyou'),
                 $rem.remove('similarplaylist'), $rem.remove('leftsidebar'), $rem.remove('rightsidebar')
             }
-            if ($left_sidebar_on -or $ofline -le "1.1.97.956") { $rem.remove('leftsidebar') }
+            if (!($left_sidebar_on) -or $ofline -le "1.1.97.956") { $rem.remove('leftsidebar') }
             if ($navalt_off) { $rem.remove($newhome) }
             if ($ofline -ge "1.1.94.864") {
                 $rem.remove('lyricsenabled'), $rem.remove('playlistcreat'), 
