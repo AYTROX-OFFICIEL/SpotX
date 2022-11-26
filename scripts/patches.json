@@ -496,7 +496,7 @@
                 "do": ""
             },
             "match": "(Enable Your Library X view of the left sidebar\",default:)(!1)",
-            "replace": "$1false"
+            "replace": "$1true"
         },
         "lyricsenabled": {
             "version": {
