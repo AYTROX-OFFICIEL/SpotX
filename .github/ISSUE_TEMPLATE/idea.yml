@@ -10,18 +10,17 @@ body:
         - 1
         - 2
         - 3
-  validations:
-    required: true  
+    
 - type: textarea
   attributes:
     label: 📸 Screenshots
     description: Place any screenshots of the issue here if needed
   validations:
-    required: false
+    required: false   
 
 - type: textarea
   attributes:
-    label: " "
+    label: "⠀"
     description: "Form for user reactions, please do not change the text inside"
     placeholder: |
       ***
