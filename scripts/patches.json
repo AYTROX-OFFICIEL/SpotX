@@ -335,6 +335,14 @@
         },
         "veryhighstream": {
             "add": " #desktop\\.settings\\.streamingQuality>option:nth-child(5) {display:none}"
+        },
+        "fix-old-theme": {
+            "version": {
+                "from": "1.1.74",
+                "do": ""
+            },
+            "match": "((LKgm9fCDTO7wqig_5U1q|eFQFeXVbY8rrcTagg0oH){--left-sidebar-item-height.+?margin-top)(:\\d+px)",
+            "replace": "$1:0px"
         }
     },
     "exp": {
