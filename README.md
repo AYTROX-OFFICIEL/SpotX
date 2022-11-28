@@ -6,7 +6,7 @@
 
 <p align="center">        
       <a href="https://t.me/spotify_windows_mod"><img src="https://raw.githubusercontent.com/AYTROX-OFFICIEL/SpotX/main/.github/Pic/Shields/tg.svg"></a>
-      <a href="https://github.com/AYTROX-OFFICIEL/SpotX/discussions/111"><img src="https://raw.githubusercontent.com/AYTROX-OFFICIEL/SpotX/main/.github/Pic/Shields/faq.svg"></a>
+      <a href="https://github.com/SpotX-CLI/SpotX-Win/discussions/111"><img src="https://raw.githubusercontent.com/AYTROX-OFFICIEL/SpotX/main/.github/Pic/Shields/faq.svg"></a>
       </p>
 
    <h2> <div align="center"><b> Modified Spotify Client for Windows </b></div> </h2>
