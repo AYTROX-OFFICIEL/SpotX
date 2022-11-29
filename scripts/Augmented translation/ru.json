@@ -282,11 +282,11 @@
     },
     "72": {
         "match": "\"Liked Songs\"",
-        "replace": "\"Понравившиеся песни\""
+        "replace": "\"Любимые треки\""
     },
     "73": {
         "match": "\"Your Episodes\"",
-        "replace": "\"Ваши эпизоды\""
+        "replace": "\"Мои выпуски\""
     },
     "74": {
         "match": "\"Local Files\"",
@@ -302,7 +302,7 @@
     },
     "77": {
         "match": "\"Saved & downloaded episodes\"",
-        "replace": "\"Сохраненные и загруженные эпизоды\""
+        "replace": "\"Сохраненные эпизоды\""
     },
     "78": {
         "match": "\"Pinned\"",
