@@ -561,6 +561,14 @@
             },
             "match": "(Enable support for adding a playlist to another playlist\",default:)(!1)",
             "replace": "$1true"
+        },
+        "pathfinder": {
+            "version": {
+                "from": "1.1.91",
+                "do": ""
+            },
+            "match": "(Fetch Browse data from Pathfinder\",default:)(!1)",
+            "replace": "$1true"
         }
     }
 }
