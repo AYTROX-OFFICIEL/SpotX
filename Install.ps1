@@ -74,6 +74,9 @@ param
 
     [Parameter(HelpMessage = 'Enable new left sidebar.')]
     [switch]$left_sidebar_on,
+     
+    [Parameter(HelpMessage = 'Enable new right sidebar.')]
+    [switch]$right_sidebar_on,
     
     [Parameter(HelpMessage = 'Do not create desktop shortcut.')]
     [switch]$no_shortcut,
@@ -107,7 +110,7 @@ function Format-LanguageCode {
     
     begin {
         $supportLanguages = @(
-            'en', 'ru', 'it', 'tr', 'ka', 'pl', 'es', 'fr', 'hi', 'pt', 'id', 'vi', 'ro', 'de', 'hu', 'zh', 'ko', 'ua'
+            'en', 'ru', 'it', 'tr', 'ka', 'pl', 'es', 'fr', 'hi', 'pt', 'id', 'vi', 'ro', 'de', 'hu', 'zh', 'ko', 'ua', 'fa'
         )
     }
     
@@ -184,6 +187,10 @@ function Format-LanguageCode {
             }
             '^ua' {
                 $returnCode = 'ua'
+                break
+            }
+            '^fa' {
+                $returnCode = 'fa'
                 break
             }
             Default {
@@ -296,6 +303,10 @@ function Set-ScriptLanguageStrings($LanguageCode) {
             $langStrings = CallLang -clg "ua"
             break
         }
+        'fa' {
+            $langStrings = CallLang -clg "fa"
+            break
+        }
         Default {
             # Default to English if unable to find a match.
             $langStrings = CallLang -clg "en"
@@ -320,7 +331,7 @@ if ($langCode -eq 'ru') {
     $webjsonru = (Invoke-WebRequest -UseBasicParsing -Uri $urlru).Content | ConvertFrom-Json
 }
 # Set variable 'add translation line'.
-if ($langCode -match '^(it|tr|ka|pl|es|fr|hi|pt|id|vi|ro|de|hu|zh|ko|ua)') { $line = $true }
+if ($langCode -match '^(it|tr|ka|pl|es|fr|hi|pt|id|vi|ro|de|hu|zh|ko|ua|fa)') { $line = $true }
 
 # Automatic length of stars
 $au = ($lang).Author.Length + ($lang).Author2.Length
@@ -516,7 +527,7 @@ function DesktopFolder {
 }
 
 # Recommended version for spotx
-$online = "1.2.0.1155"
+$online = "1.2.0.1163"
 
 # Check version Spotify offline
 $offline = (Get-Item $spotifyExecutable).VersionInfo.FileVersion
@@ -793,10 +804,10 @@ if (-not $spotifyInstalled -or $upgrade_client) {
     while (-not (get-process | Where-Object { $_.ProcessName -eq 'SpotifySetup' })) {}
     wait-process -name SpotifySetup
     Stop-Process -Name Spotify
-    
+
     # Upgrade check version Spotify offline
     $offline = (Get-Item $spotifyExecutable).VersionInfo.FileVersion
-    
+
     # Upgrade check version Spotify.bak
     $offline_bak = (Get-Item $exe_bak).VersionInfo.FileVersion
 }
@@ -945,7 +956,7 @@ function Helper($paramname) {
             $contents = "minjson"
             $json = $webjson.others
         }
-        "FixOldTheme" {
+        "FixOldTheme" { 
             # Remove indent for old theme xpui.css
             $name = "patches.json.others."
             $n = "xpui.css"
@@ -1063,7 +1074,7 @@ function Helper($paramname) {
             if ($equalizer_off) { $rem.remove('equalizer') }
             if (!($device_picker_old) -or $offline -ge "1.1.98.683") { $rem.remove('devicepickerold') }
             if ($made_for_you_off -or $offline -ge "1.1.96.783") { $rem.remove('madeforyou') }
-            if ($offline -lt "1.1.98.683") { $rem.remove('rightsidebar'), $rem.remove('addingplaylist') }
+            if ($offline -lt "1.1.98.683") { $rem.remove('addingplaylist') }
             if ($exp_standart) {
                 $rem.remove('enhanceliked'), $rem.remove('enhanceplaylist'), 
                 $rem.remove('disographyartist'), $rem.remove('lyricsmatch'), 
@@ -1072,6 +1083,8 @@ function Helper($paramname) {
                 $rem.remove('similarplaylist'), $rem.remove('leftsidebar'), $rem.remove('rightsidebar')
             }
             if (!($left_sidebar_on) -or $offline -le "1.1.97.956") { $rem.remove('leftsidebar') }
+            if (!($right_sidebar_on) -or $offline -lt "1.1.98.683") { $rem.remove('rightsidebar') }
+            if (!($right_sidebar_on) -or $offline -lt "1.2.0.1155") {$rem.remove('lyricssidebar')}
             if ($navalt_off) { $rem.remove($newhome) }
             if ($offline -ge "1.1.94.864") {
                 $rem.remove('lyricsenabled'), $rem.remove('playlistcreat'), 
@@ -1298,7 +1311,7 @@ if (Test-Path $xpui_js_patch) {
 
     # Static color for lyrics
     if ($lyrics_stat) {
-        if ($offline -lt "1.1.99.871") {
+        if ($offline -lt "1.1.99.871") { 
             $name_file = 'xpui-routes-lyrics.css'
         }
         if ($offline -ge "1.1.99.871") {
@@ -1315,7 +1328,7 @@ if (Test-Path $xpui_js_patch) {
         $submenu = $webjson.others.submenudownload.add
         # Hide very high quality streaming
         $very_high = $webjson.others.veryhighstream.add
-        
+
         $css = $icon, $submenu, $very_high
         extract -counts 'one' -method 'nonezip' -name 'xpui.css' -add $css
     }
@@ -1459,7 +1472,7 @@ If (Test-Path $xpui_spa_patch) {
     
     # Old UI fix
     extract -counts 'one' -method 'zip' -name 'xpui.css' -helper "FixOldTheme"
-    
+
     # Remove RTL and minification of all *.css
     extract -counts 'more' -name '*.css' -helper 'RemovertlCssmin'
     
