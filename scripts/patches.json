@@ -80,7 +80,7 @@
                 "do": ""
             },
             "match": "((..createElement|children:\\(.{1,7}\\))\\(....,{source:).....get\\(\"about.copyright\",.\\),paragraphClassName:.}\\)",
-            "replace": "$1\"<h3>Plus sur SpotX</h3><img src='https://github.com/fluidicon.png' width='30' height='30'> <a href='https://github.com/AYTROX-OFFICIEL/SpotX'>Github</a><br></br><img src='https://assets-global.website-files.com/6257adef93867e50d84d30e2/62f0a9e560a799075a4e0cea_Discord-Logo-White%20(3).png' width='30' height='30'> <a href='https://dsc.gg/AYTROX'>Discord</a><br></br><a href='https://github.com/AYTROX-OFFICIEL/SpotX/issues/new?assignees=&labels=%E2%9D%8C+bug&template=bug_report.yml'>Create an issue report</a><br> <br/><h4>DISCLAIMER</h4>SpotX est une version modifer de spotify, provided as an evaluation version, you use it at your own risk. SpotX by Amd64Fox and <a href='https://aytrox.com'>AYTROX</a> © 2022 <h5>Version Stable</h5>1.2.0.1155\"})"
+            "replace": "$1\"<h3>Plus sur SpotX</h3><img src='https://github.com/fluidicon.png' width='30' height='30'> <a href='https://github.com/AYTROX-OFFICIEL/SpotX'>Github</a><br></br><img src='https://assets-global.website-files.com/6257adef93867e50d84d30e2/62f0a9e560a799075a4e0cea_Discord-Logo-White%20(3).png' width='30' height='30'> <a href='https://dsc.gg/AYTROX'>Discord</a><br></br><a href='https://github.com/AYTROX-OFFICIEL/SpotX/issues/new?assignees=&labels=%E2%9D%8C+bug&template=bug_report.yml'>Create an issue report</a><br> <br/><h4>DISCLAIMER</h4>SpotX est une version modifer de spotify, provided as an evaluation version, you use it at your own risk. SpotX by Amd64Fox and <a href='https://aytrox.com'>AYTROX</a> © 2022 <h5>Version Stable</h5>1.2.0.1163\"})"
         },
         "podcastsoff": {
             "version": {
@@ -105,6 +105,14 @@
             },
             "match": "(\\!Array.isArray\\(.\\)\\|\\|.===..length)",
             "replace": "$1||e[0].key.includes('episode')||e[0].key.includes('show')"
+        },
+        "adsectionsoff": {
+            "version": {
+                "from": "1.1.97",
+                "do": ""
+            },
+            "match": "(displayName=\"Carousel\".+?const{seeAllUri:.}=(.).+?id:.}\\);)",
+            "replace": "$1 if ($2.seeAllUri.match(/(0JQ5DAnM3wGh0gz1MXnu3B|0JQ5DAnM3wGh0gz1MXnu3n|0JQ5DAnM3wGh0gz1MXnu3s|0JQ5DAnM3wGh0gz1MXnu3M|0JQ5DAob0JCuWaGLU6ntFT|0JQ5DAnM3wGh0gz1MXnu3w|0JQ5DAuChZYPe9iDhh2mJz)/)) {return null};"
         },
         "themelyrics": {
             "theme": {
@@ -140,10 +148,10 @@
                     "background": "#121212",
                     "maxmatch": "#C2C2C2"
                 }
-              }
-           },
-           "lyricscolor1": {
-               "version": {
+            }
+        },
+        "lyricscolor1": {
+            "version": {
                 "from": "1.1.70",
                 "do": ""
             },
@@ -151,7 +159,7 @@
                 "((MEjuIn9iTBQbnCqHpkoQ|H2J92dVdr0ykdOX5azL1){color:)var\\(--lyrics-color-(active\\);opacity:\\.{0,1}\\d|passed\\))",
                 "((TDPh45khCfG51fNwNIiw|E64X_eoy6xsJmDdKKHja|arY01KDGhWNgzlAHlhpd){color:)var\\(--lyrics-color-active\\)",
                 "((NHVfxGs2HwmI_fly2JC4|NiCdLCpp3o2z6nBrayOn){color:)var\\(--lyrics-color-inactive\\)",
-                "((NHVfxGs2HwmI_fly2JC4|NiCdLCpp3o2z6nBrayOn):hover{color:)var\\(--lyrics-color-active\\)",
+                "var\\(--lyrics-color-background\\)",
                 "((NHVfxGs2HwmI_fly2JC4|NiCdLCpp3o2z6nBrayOn):hover{color:)var\\(--lyrics-color-active\\)",
                 "((iq4cgi0YEKr6DGaTtzUj|kGR_hu4tdj9PnUlSPaRL){color:)var\\(--lyrics-color-inactive\\)"
             ],
@@ -589,6 +597,15 @@
             },
             "match": "(Fetch Browse data from Pathfinder\",default:)(!1)",
             "replace": "$1true"
+        },
+        "lyricssidebar": {
+            "version": {
+                "from": "1.2.0",
+                "do": ""
+            },
+            "match": "(Show lyrics in the right sidebar\",default:)(!1)",
+            "replace": "$1true"
         }
+        
     }
 }
