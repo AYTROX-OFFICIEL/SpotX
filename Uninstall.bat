@@ -6,10 +6,9 @@ echo *****************
 echo Removing Patch...
 
 
-if exist "%Appdata%\Spotify\chrome_elf_bak.dll" ( 
-    del /s /q "%Appdata%\Spotify\chrome_elf.dll" > NUL 2>&1
-    move "%Appdata%\Spotify\chrome_elf_bak.dll" "%Appdata%\Spotify\chrome_elf.dll" > NUL 2>&1
-) 
+if exist "%Appdata%\Spotify\dpapi.dll" ( 
+    del /s /q "%Appdata%\Spotify\dpapi.dll" > NUL 2>&1
+)
 
 if exist "%Appdata%\Spotify\Spotify.bak" ( 
     del /s /q "%Appdata%\Spotify.exe" > NUL 2>&1
