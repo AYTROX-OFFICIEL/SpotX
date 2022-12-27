@@ -1,4 +1,8 @@
 {
+    "lang": {
+        "version": "1.2.1.968.g21027577",
+        "language": "Russian"
+    },
     "1": {
         "match": "\"To Enhance this playlist, you.ll need to go online.\"",
         "replace": "\"Чтобы улучшить этот плейлист, вам нужно подключиться к интернету.\""
@@ -24,40 +28,40 @@
         "replace": "\"Изменить место\""
     },
     "7": {
-        "match": "\"Line breaks aren.t supported in the description.\"",
-        "replace": "\"В описании не поддерживаются разрывы строк.\""
+        "match": "\"Expand folder\"",
+        "replace": "\"Раскрыть папку\""
     },
     "8": {
-        "match": "\"Press save to keep changes you.ve made.\"",
-        "replace": "\"Нажмите «Сохранить», чтобы сохранить внесенные изменения.\""
+        "match": "\"Collapse folder\"",
+        "replace": "\"Свернуть папку\""
     },
     "9": {
-        "match": "\"No internet connection found. Changes to description and image will not be saved.\"",
-        "replace": "\"Подключение к интернету не найдено. Изменения в описании и изображении не будут сохранены.\""
+        "match": "\"New Folder\"",
+        "replace": "\"Новая папка\""
     },
     "10": {
-        "match": "\"Image too small. Images must be at least [{]0[}]x[{]1[}].\"",
-        "replace": "\"Изображение слишком маленькое. Изображения должны быть не менее {0}x{1}.\""
+        "match": "\"Show all\"",
+        "replace": "\"Показать все\""
     },
     "11": {
-        "match": "\"Failed to upload image. Please try again.\"",
-        "replace": "\"Не удалось загрузить изображение. Пожалуйста, попробуйте снова.\""
+        "match": "\"On Tour\"",
+        "replace": "\"В туре\""
     },
     "12": {
-        "match": "\"Description\"",
-        "replace": "\"Описание\""
+        "match": "\"Credits\"",
+        "replace": "\"Участники\""
     },
     "13": {
-        "match": "\"Change photo\"",
-        "replace": "\"Сменить изображение\""
+        "match": "\"Search in Albums\"",
+        "replace": "\"Искать в альбомах\""
     },
     "14": {
-        "match": "\"Remove photo\"",
-        "replace": "\"Удалить изображение\""
+        "match": "\"Search in Artists\"",
+        "replace": "\"Искать в исполнителях\""
     },
     "15": {
-        "match": "\"Name\"",
-        "replace": "\"Имя\""
+        "match": "\"Search in Playlists\"",
+        "replace": "\"Искать в плейлистах\""
     },
     "16": {
         "match": "\"Change speed\"",
@@ -233,8 +237,8 @@
         "replace": "\"По дате прослушивания\""
     },
     "59": {
-        "match": "\"Most recent\"",
-        "replace": "\"Недавние\""
+        "match": "\"Search in Podcasts . Shows\"",
+        "replace": "\"Искать в подкастах и шоу\""
     },
     "60": {
         "match": "\"Recently updated\"",
@@ -277,8 +281,8 @@
         "replace": "\"Невоспроизведенное\""
     },
     "71": {
-        "match": "\"In progress\"",
-        "replace": "\"В процессе\""
+        "match": "\"Search in Audiobooks\"",
+        "replace": "\"Искать в аудиокнигах\""
     },
     "72": {
         "match": "\"Liked Songs\"",
@@ -401,7 +405,7 @@
         "replace": "\"Создать\""
     },
     "103": {
-        "match": "\"Search Your Library\"",
+        "match": "\"Search in Your Library\"",
         "replace": "\"Поиск в медиатеке\""
     },
     "104": {
@@ -415,6 +419,93 @@
     "106": {
         "match": "\"By Spotify\"",
         "replace": "\"Плейлисты Spotify\""
+    },
+    "107": {
+        "match": "\"Search in Downloaded\"",
+        "replace": "\"Поиск в загруженном\""
+    },
+    "108": {
+        "match": "\"It's easy, we.ll help you\"",
+        "replace": "\"Это просто, мы вам поможем\""
+    },
+    "109": {
+        "match": "\"Open queue\"",
+        "replace": "\"Открыть очередь\""
+    },
+    "110": {
+        "match": "\"Playing Next\"",
+        "replace": "\"Играет дальше\""
+    },
+    "111": {
+        "match": "\"Search for something new\"",
+        "replace": "\"Искать что-то новое\""
+    },
+    "112": {
+        "match": "\"Your queue is empty\"",
+        "replace": "\"Ваша очередь пуста\""
+    },
+    "113": {
+        "match": "\"Now Playing View\"",
+        "replace": "\"Сейчас играет обзор\""
+    },
+    "114": {
+        "match": "\"Show my follower and following lists on my public profile\"",
+        "replace": "\"Показать моих подписчиков и списки подписчиков в моем публичном профиле\""
+    },
+    "115": {
+        "match": "\"Pin audiobook\"",
+        "replace": "\"Закрепить аудиокнигу\""
+    },
+    "116": {
+        "match": "\"Pin podcast\"",
+        "replace": "\"Закрепить подкаст\""
+    },
+    "117": {
+        "match": "\"Pin artist\"",
+        "replace": "\"Закрепить исполнителя\""
+    },
+    "118": {
+        "match": "\"Pin album\"",
+        "replace": "\"Закрепить альбом\""
+    },
+    "119": {
+        "match": "\"Pin playlist\"",
+        "replace": "\"Закрепить плейлист\""
+    },
+    "120": {
+        "match": "\"Pin folder\"",
+        "replace": "\"Закрепить папку\""
+    },
+    "121": {
+        "match": "\"Unpin folder\"",
+        "replace": "\"Открепить папку\""
+    },
+    "122": {
+        "match": "\"Unpin playlist\"",
+        "replace": "\"Открепить плейлист\""
+    },
+    "123": {
+        "match": "\"Unpin album\"",
+        "replace": "\"Открепить альбом\""
+    },
+    "124": {
+        "match": "\"Unpin artist\"",
+        "replace": "\"Открепить артиста\""
+    },
+    "125": {
+        "match": "\"Unpin podcast\"",
+        "replace": "\"Открепить подкаст\""
+    },
+    "126": {
+        "match": "\"Unpin audiobook\"",
+        "replace": "\"Открепить аудиокнигу\""
+    },
+    "127": {
+        "match": "\"Rename\"",
+        "replace": "\"Переименовать\""
+    },
+    "128": {
+        "match": "\"Recents\"",
+        "replace": "\"Недавние\""
     }
-    
 }
