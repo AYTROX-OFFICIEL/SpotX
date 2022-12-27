@@ -88,7 +88,7 @@ param
     [switch]$bts,
 
     [Parameter(HelpMessage = 'Static color for lyrics.')]
-    [int16]$lyrics_stat,
+    [string]$lyrics_stat,
 
     [Parameter(HelpMessage = 'Accumulation of track listening history with Goofy.')]
     [string]$urlform_goofy = $null,
@@ -117,107 +117,119 @@ function Format-LanguageCode {
         [string]$LanguageCode
     )
     
-    begin {
-        $supportLanguages = @(
-            'en', 'ru', 'it', 'tr', 'ka', 'pl', 'es', 'fr', 'hi', 'pt', 'id', 'vi', 'ro', 'de', 'hu', 'zh', 'ko', 'ua', 'fa'
-        )
-    }
     
-    process {
-        # Trim the language code down to two letter code.
-        switch -Regex ($LanguageCode) {
-            '^en' {
-                $returnCode = 'en'
-                break
-            }
-            '^(ru|py)' {
-                $returnCode = 'ru'
-                break
-            }
-            '^it' {
-                $returnCode = 'it'
-                break
-            }
-            '^tr' {
-                $returnCode = 'tr'
-                break
-            }
-            '^ka' {
-                $returnCode = 'ka'
-                break
-            }
-            '^pl' {
-                $returnCode = 'pl'
-                break
-            }
-            '^es' {
-                $returnCode = 'es'
-                break
-            }
-            '^fr' {
-                $returnCode = 'fr'
-                break
-            }
-            '^hi' {
-                $returnCode = 'hi'
-                break
-            }
-            '^pt' {
-                $returnCode = 'pt'
-                break
-            }
-            '^id' {
-                $returnCode = 'id'
-                break
-            }
-            '^vi' {
-                $returnCode = 'vi'
-                break
-            }
-            '^ro' {
-                $returnCode = 'ro'
-                break
-            }
-            '^de' {
-                $returnCode = 'de'
-                break
-            }
-            '^hu' {
-                $returnCode = 'hu'
-                break
-            }
-            '^zh' {
-                $returnCode = 'zh'
-                break
-            }
-            '^ko' {
-                $returnCode = 'ko'
-                break
-            }
-            '^ua' {
-                $returnCode = 'ua'
-                break
-            }
-            '^fa' {
-                $returnCode = 'fa'
-                break
-            }
-            Default {
-                $returnCode = $PSUICulture.Remove(2)
-                break
-            }
-        }
-        
-        # Confirm that the language code is supported by this script.
-        if ($returnCode -NotIn $supportLanguages) {
-            # If the language code is not supported default to English.
+    $supportLanguages = @(
+        'en', 'ru', 'it', 'tr', 'ka', 'pl', 'es', 'fr', 'hi', 'pt', 'id', 'vi', 'ro', 'de', 'hu', 'zh', 'zh-TW', 'ko', 'ua', 'fa', 'sr', 'lv'
+    )
+    
+    
+    # Trim the language code down to two letter code.
+    switch -Regex ($LanguageCode) {
+        '^en' {
             $returnCode = 'en'
+            break
+        }
+        '^(ru|py)' {
+            $returnCode = 'ru'
+            break
+        }
+        '^it' {
+            $returnCode = 'it'
+            break
+        }
+        '^tr' {
+            $returnCode = 'tr'
+            break
+        }
+        '^ka' {
+            $returnCode = 'ka'
+            break
+        }
+        '^pl' {
+            $returnCode = 'pl'
+            break
+        }
+        '^es' {
+            $returnCode = 'es'
+            break
+        }
+        '^fr' {
+            $returnCode = 'fr'
+            break
+        }
+        '^hi' {
+            $returnCode = 'hi'
+            break
+        }
+        '^pt' {
+            $returnCode = 'pt'
+            break
+        }
+        '^id' {
+            $returnCode = 'id'
+            break
+        }
+        '^vi' {
+            $returnCode = 'vi'
+            break
+        }
+        '^ro' {
+            $returnCode = 'ro'
+            break
+        }
+        '^de' {
+            $returnCode = 'de'
+            break
+        }
+        '^hu' {
+            $returnCode = 'hu'
+            break
+        }
+        '^(zh|zh-CN)$' {
+            $returnCode = 'zh'
+            break
+        }
+        '^zh-TW' {
+            $returnCode = 'zh-TW'
+            break
+        }
+        '^ko' {
+            $returnCode = 'ko'
+            break
+        }
+        '^ua' {
+            $returnCode = 'ua'
+            break
+        }
+        '^fa' {
+            $returnCode = 'fa'
+            break
+        }
+        '^sr' {
+            $returnCode = 'sr'
+            break
+        }
+        '^lv' {
+            $returnCode = 'lv'
+            break
+        }
+        Default {
+            $returnCode = $PSUICulture
+            $long_code = $true
+            break
         }
     }
-    
-    end {
-        return $returnCode
+        
+    # Checking the long language code
+    if ($long_code -and $returnCode -NotIn $supportLanguages) {
+        $returnCode = $PSUICulture.Remove(2)
     }
+    # Checking the short language code
+    if ($returnCode -NotIn $supportLanguages) {
+        # If the language code is not supported default to English.
+        $returnCode = 'en'
+    }
+    return $returnCode 
 }
 
 function CallLang($clg) {
@@ -231,107 +243,17 @@ function CallLang($clg) {
     }
     catch {
         Write-Host "Error loading $clg language"
+        Pause
+        Exit
     }
 }
 
 
-function Set-ScriptLanguageStrings($LanguageCode) {
-    
-    #Sets the language strings to be used.
-    
-    switch ($LanguageCode) {
-        'en' {
-            $langStrings = CallLang -clg "en"
-            break
-        }
-        'ru' {
-            $langStrings = CallLang -clg "ru"
-            break
-        }
-        'it' {
-            $langStrings = CallLang -clg "it"
-            break
-        }
-        'tr' {
-            $langStrings = CallLang -clg "tr"
-            break
-        }
-        'ka' {
-            $langStrings = CallLang -clg "ka"
-            break
-        }
-        'pl' {
-            $langStrings = CallLang -clg "pl"
-            break
-        }
-        'es' {
-            $langStrings = CallLang -clg "es"
-            break
-        }
-        'fr' {
-            $langStrings = CallLang -clg "fr"
-            break
-        }
-        'hi' {
-            $langStrings = CallLang -clg "hi"
-            break
-        }
-        'pt' {
-            $langStrings = CallLang -clg "pt"
-            break
-        }
-        'id' {
-            $langStrings = CallLang -clg "id"
-            break
-        }
-        'vi' {
-            $langStrings = CallLang -clg "vi"
-            break
-        }
-        'ro' {
-            $langStrings = CallLang -clg "ro"
-            break
-        }
-        'de' {
-            $langStrings = CallLang -clg "de"
-            break
-        }
-        'hu' {
-            $langStrings = CallLang -clg "hu"
-            break
-        }
-        'zh' {
-            $langStrings = CallLang -clg "zh"
-            break
-        }
-        'ko' {
-            $langStrings = CallLang -clg "ko"
-            break
-        }
-        'ua' {
-            $langStrings = CallLang -clg "ua"
-            break
-        }
-        'fa' {
-            $langStrings = CallLang -clg "fa"
-            break
-        }
-        Default {
-            # Default to English if unable to find a match.
-            $langStrings = CallLang -clg "en"
-            break
-        }
-    }
-    
- 
-    return $langStrings
-}
 
 # Set language code for script.
 $langCode = Format-LanguageCode -LanguageCode $Language
 
-# Set script language strings.
-$lang = Set-ScriptLanguageStrings -LanguageCode $langCode
+$lang = CallLang -clg $langCode
 
 # Set variable 'ru'.
 if ($langCode -eq 'ru') { 
@@ -339,25 +261,9 @@ if ($langCode -eq 'ru') {
     $urlru = "https://raw.githubusercontent.com/AYTROX-OFFICIEL/SpotX/main/scripts/Augmented%20translation/ru.json"
     $webjsonru = (Invoke-WebRequest -UseBasicParsing -Uri $urlru).Content | ConvertFrom-Json
 }
-# Set variable 'add translation line'.
-if ($langCode -match '^(it|tr|ka|pl|es|fr|hi|pt|id|vi|ro|de|hu|zh|ko|ua|fa)') { $line = $true }
 
-# Automatic length of stars
-$au = ($lang).Author.Length + ($lang).Author2.Length
-$by = ($lang).TranslationBy.Length + ($lang).TranslationBy2.Length
-if ($au -gt $by ) { $long = $au + 1 } else { $long = $by + 1 } 
-$st = ""
-$star = $st.PadLeft($long, '*')
-
-Write-Host $star
-Write-Host ($lang).Author"" -NoNewline
-Write-Host ($lang).Author2 -ForegroundColor DarkYellow
-if (!($line)) { Write-Host $star`n }
-if ($line) {
-    Write-Host ($lang).TranslationBy"" -NoNewline
-    Write-Host ($lang).TranslationBy2 -ForegroundColor DarkYellow
-    Write-Host $star`n
-}
+Write-Host ($lang).Welcome
+Write-Host ""
 
 # Sending a statistical web query to cutt.ly
 $ErrorActionPreference = 'SilentlyContinue'
@@ -428,6 +334,7 @@ function downloadScripts($param1) {
         $old = [IO.File]::ReadAllText($l)
         $links = $old -match "https:\/\/upgrade.scdn.co\/upgrade\/client\/win32-x86\/spotify_installer-$online\.g[0-9a-f]{8}-[0-9]{1,4}\.exe" 
         $links = $Matches.Values
+        $links = $links -replace "upgrade.scdn", "download.scdn"
     }
     if ($ru -and $param1 -eq "cache-spotify") {
         $links2 = "https://raw.githubusercontent.com/AYTROX-OFFICIEL/SpotX/main/scripts/cache/cache_spotify_ru.ps1"
@@ -536,7 +443,7 @@ function DesktopFolder {
 }
 
 # Recommended version for spotx
-$online = "1.2.0.1165"
+$online = "1.2.1.968"
 
 # Check version Spotify offline
 $offline = (Get-Item $spotifyExecutable).VersionInfo.FileVersion
@@ -996,6 +903,8 @@ function Helper($paramname) {
             $current = $webjson.others.themelyrics.theme.$lyrics_stat.current
             $next = $webjson.others.themelyrics.theme.$lyrics_stat.next
             $background = $webjson.others.themelyrics.theme.$lyrics_stat.background
+            $hover = $webjson.others.themelyrics.theme.$lyrics_stat.hover
+            $maxmatch = $webjson.others.themelyrics.theme.$lyrics_stat.maxmatch
 
             if ($offline -lt "1.1.99.871") { $lyrics = "lyricscolor1"; $contents = $lyrics }
             if ($offline -ge "1.1.99.871") { $lyrics = "lyricscolor2"; $contents = $lyrics }
@@ -1003,10 +912,13 @@ function Helper($paramname) {
             # xpui-routes-lyrics.js
             if ($offline -ge "1.1.99.871") {
 
-                $webjson.others.$lyrics.replace[0] = '$1' + '"' + $pasttext + '"'  
-                $webjson.others.$lyrics.replace[1] = '$1' + '"' + $current + '"'  
-                $webjson.others.$lyrics.replace[2] = '$1' + '"' + $next + '"'  
-                $webjson.others.$lyrics.replace[3] = '$1' + '"' + $background + '"'   
+                $webjson.others.$lyrics.replace[1] = '$1' + '"' + $pasttext + '"'  
+                $webjson.others.$lyrics.replace[2] = '$1' + '"' + $current + '"'  
+                $webjson.others.$lyrics.replace[3] = '$1' + '"' + $next + '"'  
+                $webjson.others.$lyrics.replace[4] = '$1' + '"' + $background + '"'
+                $webjson.others.$lyrics.replace[5] = '$1' + '"' + $hover + '"'   
+                $webjson.others.$lyrics.replace[6] = '$1' + '"' + $maxmatch + '"'  
+        
             }
             # xpui-routes-lyrics.css
             if ($offline -lt "1.1.99.871") {
@@ -1014,11 +926,17 @@ function Helper($paramname) {
                 $webjson.others.$lyrics.replace[1] = '$1' + $current
                 $webjson.others.$lyrics.replace[2] = '$1' + $next
                 $webjson.others.$lyrics.replace[3] = $background 
-                $webjson.others.$lyrics.replace[4] = '$1' + $webjson.others.themelyrics.theme.$lyrics_stat.hover 
-                $webjson.others.$lyrics.replace[5] = '$1' + $webjson.others.themelyrics.theme.$lyrics_stat.maxmatch 
+                $webjson.others.$lyrics.replace[4] = '$1' + $hover 
+                $webjson.others.$lyrics.replace[5] = '$1' + $maxmatch 
             }
             $name = "patches.json.others."
             $n = $name_file
+            $json = $webjson.others
+        }
+        "Fix-New-Lirics" {
+            $name = "patches.json.others."
+            $contents = "fixcsslyricscolor2"
+            $n = "xpui.css"
             $json = $webjson.others
         }
         "Discriptions" {  
@@ -1089,9 +1007,13 @@ function Helper($paramname) {
 
             if ( $offline -le "1.1.96.785") { $rem.remove('newhome2'); $newhome = 'newhome' }
             if ( $offline -ge "1.1.97.956") { $rem.remove('newhome'); $newhome = 'newhome2' }
-            if ( $offline -ge "1.1.99.871") { $rem.remove('clearcache') }
+            if ( $offline -ge "1.1.99.871" -or $offline -lt "1.1.92.644" ) { $rem.remove('clearcache') }
+            if ( $offline -lt "1.1.93.896" ) { $rem.remove('carouselsonhome') }
             if ( $offline -le "1.1.98.691") { $rem.remove('sidebar-fix') }
             if ( $offline -lt "1.1.91.824") { $rem.remove('pathfinder') }
+            if ( $offline -lt "1.1.99.871") { $rem.remove('badbunny'), $rem.remove('devicelocal'), $rem.remove('silencetrimmer') }
+            if ( $offline -lt "1.2.0.1155") { $rem.remove('forgetdevice'), $rem.remove('speedpodcasts') }
+            if ( $offline -lt "1.2.1.958") { $rem.remove('showfollows') }
             if ($enhance_like_off) { $rem.remove('enhanceliked') }
             if ($enhance_playlist_off) { $rem.remove('enhanceplaylist') }
             if ($new_artist_pages_off) { $rem.remove('disographyartist') }
@@ -1101,11 +1023,10 @@ function Helper($paramname) {
             if ($made_for_you_off -or $offline -ge "1.1.96.783") { $rem.remove('madeforyou') }
             if ($offline -lt "1.1.98.683") { $rem.remove('addingplaylist') }
             if ($exp_standart) {
-                $rem.remove('enhanceliked'), $rem.remove('enhanceplaylist'), 
-                $rem.remove('disographyartist'), $rem.remove('lyricsmatch'), 
-                $rem.remove('equalizer'), $rem.remove('devicepicker'), 
-                $rem.remove($newhome), $rem.remove('madeforyou'),
-                $rem.remove('similarplaylist'), $rem.remove('leftsidebar'), $rem.remove('rightsidebar')
+                $rem.remove('enhanceliked'), $rem.remove('enhanceplaylist'), $rem.remove('disographyartist'), $rem.remove('lyricsmatch'), 
+                $rem.remove('equalizer'), $rem.remove('devicepicker'), $rem.remove($newhome), $rem.remove('madeforyou'),
+                $rem.remove('similarplaylist'), $rem.remove('leftsidebar'), $rem.remove('rightsidebar'), $rem.remove('badbunny'),
+                $rem.remove('devicelocal'), $rem.remove('silencetrimmer'), $rem.remove('forgetdevice'), $rem.remove('speedpodcasts') , $rem.remove('showfollows')
             }
             if (!($left_sidebar_on) -or $offline -le "1.1.97.956") { $rem.remove('leftsidebar') }
             if (!($right_sidebar_on) -or $offline -lt "1.1.98.683") { $rem.remove('rightsidebar') }
@@ -1352,9 +1273,15 @@ if (Test-Path $xpui_js_patch) {
             $name_file = 'xpui-routes-lyrics.css'
         }
         if ($offline -ge "1.1.99.871") {
+            extract -counts 'one' -method 'nonezip' -name 'xpui.css' -helper 'Fix-New-Lirics'
             $name_file = 'xpui-routes-lyrics.js'   
         }
         extract -counts 'one' -method 'nonezip' -name $name_file -helper 'Lyrics-color'
+        # mini lyrics
+        if ($offline -ge "1.2.0.1155") {
+            $name_file = 'xpui.js'   
+            extract -counts 'one' -method 'nonezip' -name $name_file -helper 'Lyrics-color'
+        }
     }
     
     # xpui.css
@@ -1419,21 +1346,11 @@ If (Test-Path $xpui_spa_patch) {
     # Remove all languages except En and Ru from xpui.spa
     if ($ru) {
         [Reflection.Assembly]::LoadWithPartialName('System.IO.Compression') | Out-Null
-
-        $files = 'af.json', 'am.json', 'ar.json', 'ar-EG.json', 'ar-SA.json', 'ar-MA.json', 'az.json', 'bg.json', 'bho.json', 'bn.json', `
-            'bs.json', 'cs.json', 'ca.json', 'gl.json', 'da.json', 'de.json', 'en-GB.json', 'el.json', 'es-419.json', 'es-MX.json', 'es-AR.json', 'es.json', 'et.json', 'fa.json', `
-            'fi.json', 'fil.json', 'fr-CA.json', 'fr.json', 'gu.json', 'he.json', 'hi.json', 'eu.json', 'hu.json', `
-            'id.json', 'is.json', 'it.json', 'ja.json', 'kn.json', 'ko.json', 'lt.json', 'lv.json', `
-            'ml.json', 'mr.json', 'ms.json', 'mk.json', 'nb.json', 'ne.json', 'nl.json', 'or.json', 'pa-IN.json', `
-            'pl.json', 'pt-BR.json', 'pt-PT.json', 'ro.json', 'sk.json', 'sl.json', 'sr.json', 'sv.json', `
-            'sw.json' , 'ta.json', 'te.json', 'th.json', 'tr.json', 'uk.json', 'ur.json', 'vi.json', `
-            'zh-CN.json', 'zh-TW.json', 'zh-HK.json', 'zu.json', 'pa-PK.json', 'hr.json'
-
         $stream = New-Object IO.FileStream($xpui_spa_patch, [IO.FileMode]::Open)
         $mode = [IO.Compression.ZipArchiveMode]::Update
         $zip_xpui = New-Object IO.Compression.ZipArchive($stream, $mode)
 
-    ($zip_xpui.Entries | Where-Object { $files -contains $_.Name }) | ForEach-Object { $_.Delete() }
+    ($zip_xpui.Entries | Where-Object { $_.FullName -match "i18n" -and $_.FullName -inotmatch "(ru|en.json|longest)" }) | ForEach-Object { $_.Delete() }
 
         $zip_xpui.Dispose()
         $stream.Close()
@@ -1481,13 +1398,21 @@ If (Test-Path $xpui_spa_patch) {
 
     # Static color for lyrics
     if ($lyrics_stat) {
+        # old
         if ($offline -lt "1.1.99.871") { 
             $name_file = 'xpui-routes-lyrics.css'
         }
+        # new 
         if ($offline -ge "1.1.99.871") {
+            extract -counts 'one' -method 'zip' -name 'xpui.css' -helper 'Fix-New-Lirics'
             $name_file = 'xpui-routes-lyrics.js'   
         }
         extract -counts 'one' -method 'zip' -name $name_file -helper 'Lyrics-color'
+        # mini lyrics
+        if ($offline -ge "1.2.0.1155") {
+            $name_file = 'xpui.js'   
+            extract -counts 'one' -method 'zip' -name $name_file -helper 'Lyrics-color'
+        }
     }
 
     # Add discriptions (xpui-desktop-modals.js)
