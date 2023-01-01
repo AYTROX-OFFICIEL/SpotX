@@ -88,7 +88,7 @@
                 "do": ""
             },
             "match": "((..createElement|children:\\(.{1,7}\\))\\(....,{source:).....get\\(\"about.copyright\",.\\),paragraphClassName:.}\\)",
-            "replace": "$1\"<h3>Plus sur SpotX</h3><img src='https://github.com/fluidicon.png' width='30' height='30'> <a href='https://github.com/AYTROX-OFFICIEL/SpotX'>Github</a><br></br><img src='https://assets-global.website-files.com/6257adef93867e50d84d30e2/62f0a9e560a799075a4e0cea_Discord-Logo-White%20(3).png' width='30' height='30'> <a href='https://dsc.gg/AYTROX'>Discord</a><br></br><a href='https://github.com/AYTROX-OFFICIEL/SpotX/issues/new?assignees=&labels=%E2%9D%8C+bug&template=bug_report.yml'>Create an issue report</a><br> <br/><h4>DISCLAIMER</h4>SpotX est une version modifer de spotify, provided as an evaluation version, you use it at your own risk. SpotX by Amd64Fox and <a href='https://aytrox.com'>AYTROX</a> © 2022 <h5>Version Stable</h5>1.2.1.968\"})"
+            "replace": "$1\"<h3>Plus sur SpotX</h3><img src='https://github.com/fluidicon.png' width='30' height='30'> <a href='https://github.com/AYTROX-OFFICIEL/SpotX'>Github</a><br></br><img src='https://assets-global.website-files.com/6257adef93867e50d84d30e2/62f0a9e560a799075a4e0cea_Discord-Logo-White%20(3).png' width='30' height='30'> <a href='https://dsc.gg/AYTROX'>Discord</a><br></br><a href='https://github.com/AYTROX-OFFICIEL/SpotX/issues/new?assignees=&labels=%E2%9D%8C+bug&template=bug_report.yml'>Create an issue report</a><br> <br/><h4>DISCLAIMER</h4>SpotX est une version modifer de spotify, provided as an evaluation version, you use it at your own risk. SpotX by Amd64Fox and <a href='https://aytrox.com'>AYTROX</a> © 2022 <h5>Version Stable</h5>1.2.2.582\"})"
         },
         "podcastsoff": {
             "version": {
@@ -320,16 +320,16 @@
         },
         "lyricscolor1": {
             "version": {
-                "from": "1.1.70",
-                "do": ""
+                "from": "1.1.85",
+                "do": "1.1.98"
             },
             "match": [
-                "((MEjuIn9iTBQbnCqHpkoQ|H2J92dVdr0ykdOX5azL1){color:)var\\(--lyrics-color-(active\\);opacity:\\.{0,1}\\d|passed\\))",
-                "((TDPh45khCfG51fNwNIiw|E64X_eoy6xsJmDdKKHja|arY01KDGhWNgzlAHlhpd){color:)var\\(--lyrics-color-active\\)",
-                "((NHVfxGs2HwmI_fly2JC4|NiCdLCpp3o2z6nBrayOn){color:)var\\(--lyrics-color-inactive\\)",
+                "((MEjuIn9iTBQbnCqHpkoQ|H2J92dVdr0ykdOX5azL1|KnFq2ijXFdOtyl4Iebjv){color:)var\\(--lyrics-color-(active\\);opacity:\\.{0,1}\\d|passed\\))",
+                "((TDPh45khCfG51fNwNIiw|E64X_eoy6xsJmDdKKHja|arY01KDGhWNgzlAHlhpd|t0iEG6xYBDhK_mFvkCp0){color:)var\\(--lyrics-color-active\\)",
+                "((NHVfxGs2HwmI_fly2JC4|NiCdLCpp3o2z6nBrayOn|gaHIufRWhoWbiT8S6zuM){color:)var\\(--lyrics-color-inactive\\)",
                 "var\\(--lyrics-color-background\\)",
-                "((NHVfxGs2HwmI_fly2JC4|NiCdLCpp3o2z6nBrayOn):hover{color:)var\\(--lyrics-color-active\\)",
-                "((iq4cgi0YEKr6DGaTtzUj|kGR_hu4tdj9PnUlSPaRL){color:)var\\(--lyrics-color-inactive\\)"
+                "((NHVfxGs2HwmI_fly2JC4|NiCdLCpp3o2z6nBrayOn|gaHIufRWhoWbiT8S6zuM):hover{color:)var\\(--lyrics-color-active\\)",
+                "((iq4cgi0YEKr6DGaTtzUj|kGR_hu4tdj9PnUlSPaRL|W_EplVEAbZrZURqfLiQC|OYiGFGZJDIZ4FF4ZTDK2){color:)var\\(--lyrics-color-inactive\\)"
             ],
             "replace": [
                 "",
@@ -346,11 +346,11 @@
                 "do": ""
             },
             "match": [
-                "(.--lyrics-color-background.:..background)",
-                "(.--lyrics-color-passed.:)(..passed)",
-                "(.--lyrics-color-active.:)((?:.\\?.\\.passed:.|.).active)",
-                "(.--lyrics-color-inactive.:)(..inactive)",
-                "(.--lyrics-color-background.:)(..background)",
+                "(.--lyrics-color-background.:(..|..colors.)background)",
+                "(.--lyrics-color-passed.:)(..passed|.....fromCSS.+?RGBA\\))",
+                "(.--lyrics-color-active.:)((?:.\\?.\\.passed:..active|..active|..colors.activeText))",
+                "(.--lyrics-color-inactive.:)(..inactive|..colors.text)",
+                "(.--lyrics-color-background.:)((..|..colors.)background)",
                 "(.--lyrics-color-hover.:)(\"xxx\")",
                 "(.--lyrics-color-maxmatch.:)(\"xxx\")"
             ],
@@ -616,6 +616,14 @@
                 "do": ""
             },
             "match": "(Enable Playlist Permissions flows for Prod\",default:)(!1)",
+            "replace": "$1true"
+        },
+        "newlyrics": {
+            "version": {
+                "from": "1.1.84",
+                "do": "1.1.86"
+            },
+            "match": "(Enable the new fullscreen lyrics page\",default:)(!1)",
             "replace": "$1true"
         },
         "showingballoons": {
