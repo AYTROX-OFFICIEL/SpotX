@@ -1,6 +1,6 @@
 {
     "lang": {
-        "version": "1.2.1.968.g21027577",
+        "version": "1.2.2.582.gfae9c59b",
         "language": "Russian"
     },
     "1": {
@@ -132,20 +132,20 @@
         "replace": "\"Нет\""
     },
     "33": {
-        "match": "",
-        "replace": ""
+        "match": "\"Unpin podcast\"",
+        "replace": "\"Открепить подкаст\""
     },
     "34": {
-        "match": "",
-        "replace": ""
+        "match": "\"Unpin audiobook\"",
+        "replace": "\"Открепить аудиокнигу\""
     },
     "35": {
-        "match": "",
-        "replace": ""
+        "match": "\"Rename\"",
+        "replace": "\"Переименовать\""
     },
     "36": {
-        "match": "",
-        "replace": ""
+        "match": "\"Recents\"",
+        "replace": "\"Недавние\""
     },
     "37": {
         "match": "\"Your Location\"",
@@ -446,11 +446,11 @@
     },
     "113": {
         "match": "\"Now Playing View\"",
-        "replace": "\"Сейчас играет обзор\""
+        "replace": "\"Сейчас играет\""
     },
     "114": {
-        "match": "\"Show my follower and following lists on my public profile\"",
-        "replace": "\"Показать моих подписчиков и списки подписчиков в моем публичном профиле\""
+        "match": "\"In progress\"",
+        "replace": "\"В процессе\""
     },
     "115": {
         "match": "\"Pin audiobook\"",
@@ -488,24 +488,24 @@
         "match": "\"Unpin album\"",
         "replace": "\"Открепить альбом\""
     },
-    "124": {
-        "match": "\"Unpin artist\"",
-        "replace": "\"Открепить артиста\""
-    },
     "125": {
-        "match": "\"Unpin podcast\"",
-        "replace": "\"Открепить подкаст\""
+        "match": "\"Unpin artist\"",
+        "replace": "\"Открепить исполнителя\""
     },
     "126": {
-        "match": "\"Unpin audiobook\"",
-        "replace": "\"Открепить аудиокнигу\""
+        "match": "\"Go back\"",
+        "replace": "\"Вернуться\""
     },
     "127": {
-        "match": "\"Rename\"",
-        "replace": "\"Переименовать\""
+        "match": "\"Start adding playlists by dragging and dropping\"",
+        "replace": "\"Начните добавлять плейлисты, перетаскивая и отпуская.\""
     },
     "128": {
-        "match": "\"Recents\"",
-        "replace": "\"Недавние\""
+        "match": "\"This folder looks empty\"",
+        "replace": "\"Эта папка выглядит пустой\""
+    },
+    "129": {
+        "match": "\"(... )Tour Dates\"",
+        "replace": "\"$1Даты тура\""
     }
 }
